@@ -9,32 +9,36 @@ const styles = {
   }
 };
 
-class Example3 extends PureComponent {
+class Example5 extends PureComponent {
   componentDidMount() {
     this.drawChart();
   }
 
   drawChart() {
-    const dataset = [80, 100, 56, 120, 180, 30, 40, 120, 160];
+    const dataset = [1, 2, 3, 4, 5];
 
-    const w = 500, h = 300, barPadding = 5;
-    const barWidth = (w / dataset.length);
-
-
+    const svgWidth = 500, svgHeight = 300, barPadding = 5;
+    const barWidth = (svgWidth / dataset.length);
+    
+    
     const svg = d3.select('#myChart')
       .append("svg")
-      .attr("width", w)
-      .attr("height", h);
+      .attr("width", svgWidth)
+      .attr("height", svgHeight);
+
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(dataset)])
+      .range([0, svgHeight]);
         
     svg.selectAll("rect")
       .data(dataset)
       .enter()
       .append("rect")
       .attr("y", function(d) {
-          return h - d 
+           return svgHeight - yScale(d) 
       })
       .attr("height", function(d) { 
-          return d; 
+          return yScale(d); 
       })
       .attr("width", barWidth - barPadding)
       .attr("transform", function (d, i) {
@@ -50,4 +54,4 @@ class Example3 extends PureComponent {
   }
 }
 
-export default Example3;
+export default Example5;

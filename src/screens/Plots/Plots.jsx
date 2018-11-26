@@ -11,6 +11,11 @@ import Example1 from './Tabs/Example1';
 import Example2 from './Tabs/Example2';
 import Example3 from './Tabs/Example3';
 import Example4 from './Tabs/Example4';
+import Example5 from './Tabs/Example5';
+import Example6 from './Tabs/Example6';
+import Example7 from './Tabs/Example7';
+import Example8 from './Tabs/Example8';
+import Example9 from './Tabs/Example9';
 
 const styles = {
   root: {
@@ -28,17 +33,27 @@ class Plots extends PureComponent {
     return (
       <div style={styles.root}>
         <AppBar position="static">
-          <Tabs value={value} onChange={this.handleChange}>
-            <Tab label="Example 1" />
-            <Tab label="Example 2" />
-            <Tab label="Example 3" />
-            <Tab label="Example 4" />
+          <Tabs scrollable value={value} onChange={this.handleChange}>
+            <Tab label="D3 Example" />
+            <Tab label="Simple Bar Chart" />
+            <Tab label="Tuto - Barchart" />
+            <Tab label="Tuto - Annotations" />
+            <Tab label="Tuto - Scaling" />
+            <Tab label="Tuto - Axis" />
+            <Tab label="Tuto - SVG Elements" />
+            <Tab label="Tuto - Pie Charts" />
+            <Tab label="Tuto - Line Charts" />
           </Tabs>
         </AppBar>
         {value === 0 && <Example1 />}
         {value === 1 && <Example2 />}
         {value === 2 && <Example3 />}
         {value === 3 && <Example4 />}
+        {value === 4 && <Example5 />}
+        {value === 5 && <Example6 />}
+        {value === 6 && <Example7 />}
+        {value === 7 && <Example8 />}
+        {value === 8 && <Example9 />}
       </div>
     );
   }
