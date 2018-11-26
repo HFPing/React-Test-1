@@ -7,6 +7,7 @@
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "chroma-js": "^1.4.0",
     "d3": "^5.7.0",
     "gh-pages": "^2.0.1",
     "prop-types": "^15.6.2",
