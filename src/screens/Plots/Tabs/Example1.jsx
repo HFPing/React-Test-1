@@ -14,7 +14,6 @@ class Example1 extends PureComponent {
   render() {
     return (
       <div>
-        <h1>My Chart</h1>
         <Barchart />
       </div>
     );
