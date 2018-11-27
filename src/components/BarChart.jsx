@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 
 import * as d3 from 'd3';
 
+import './BarChart.css';
+
 class Barchart extends PureComponent {
   componentDidMount() {
     this.drawChart();
   }
 
   drawChart() {
+    // Props aquire
     const {
       style,
       paddingInner,
@@ -23,26 +26,30 @@ class Barchart extends PureComponent {
       padding,
     } = style;
 
+    // Parameter definition
     const fontSize = 20;
     const horizontalPadding = fontSize * 3;
     const verticalPadding = fontSize * (xLabel !== undefined ? 2 : 1);
     const widthInt = width - horizontalPadding;
     const heightInt = height - verticalPadding - 2 * padding;
 
+    // Barchart variable width definition
     const barWidth =
     (widthInt / data.length)
     - (paddingInner * widthInt / data.length);
 
+    // Main svg canvas container
     const svg = d3.select('#myChart')
       .append('svg')
       .attr('width', width)
       .attr('height', height);
 
+    // Y axis scale function
     const y = d3.scaleLinear()
       .domain([0, d3.max(data, (d) => d.height) * 1.1])
       .range([heightInt - padding, 0]);
-      //.range([0, heightInt]);
 
+    // X axis scale function
     const x = d3.scaleBand()
       .domain(data.map(val => val.name))
       .range([
@@ -52,26 +59,13 @@ class Barchart extends PureComponent {
       .paddingInner(paddingInner)
       .paddingOuter(paddingOuter);
 
-    const xAxisCall = d3.axisBottom(x);
-    svg.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', `translate(${0}, ${heightInt - padding})`)
-      .call(xAxisCall);
-    if (xLabel !== undefined) {
-      svg.append('text')
-        .attr('class', 'x axis-label')
-        .attr('x', (width + horizontalPadding ) / 2)
-        .attr('y', height - (fontSize * 0.3) - 2 * padding)
-        .attr('font-size', `${fontSize}px`)
-        .attr('text-anchor', 'middle')
-        .text(xLabel);
-    }
-
+    // Y axis render
     const yAxisCall = d3.axisLeft(y)
       .tickFormat((d) => `${d}%`)
-      .ticks(20);
+      .ticks(20)
+      .tickSize(- widthInt + 2 * padding);
     svg.append('g')
-      .attr('class', 'y-axis')
+      .attr('class', 'y-axis grid')
       .attr('transform', `translate(${horizontalPadding}, ${0})`)
       .call(yAxisCall);
     svg.append('text')
@@ -83,7 +77,24 @@ class Barchart extends PureComponent {
       .attr('text-anchor', 'middle')
       .text(yLabel);
 
-    const rects = svg.selectAll('rect')
+    // X axis render
+    const xAxisCall = d3.axisBottom(x);
+    svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', `translate(${0}, ${heightInt - padding})`)
+      .call(xAxisCall);
+    if (xLabel !== undefined) {
+      svg.append('text')
+        .attr('class', 'x axis-label')
+        .attr('x', (width + horizontalPadding) / 2)
+        .attr('y', height - (fontSize * 0.3) - 2 * padding)
+        .attr('font-size', `${fontSize}px`)
+        .attr('text-anchor', 'middle')
+        .text(xLabel);
+    }
+
+    // Bar chart render
+    svg.selectAll('rect')
       .data(data)
       .enter()
       .append('rect')
@@ -91,7 +102,18 @@ class Barchart extends PureComponent {
       .attr('x', (d, i) => x(d.name))
       .attr('width', barWidth)
       .attr('height', (d) => heightInt - y(d.height))
-      .attr('fill', (d) => 'grey');
+      .attr('fill', (d, i) => d3.schemeCategory10[i]);
+
+    // Bar-top annotations
+    svg.selectAll('svg')
+      .data(data)
+      .enter()
+      .append('text')
+      .text((d) => `${d.height}%`)
+      .attr('x', (d, i) => x(d.name) + barWidth / 2)
+      .attr('y', (d) => y(d.height) - padding - 5)
+      .attr('text-anchor', 'middle')
+      .attr("fill", "#000000");
   }
 
   render () {
@@ -101,7 +123,7 @@ class Barchart extends PureComponent {
 }
 
 Barchart.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.array.isRequired,
   colors: PropTypes.array,
   paddingInner: PropTypes.number,
   paddingOuter: PropTypes.number,
@@ -123,9 +145,8 @@ Barchart.defaultProps = {
     marginTop: 100,
     marginBottom: 0,
     padding: 10,
-    //backgroundColor: 'SkyBlue',
     borderColor: 'black',
-    //borderWidth: 1,
+    borderWidth: 1,
     borderStyle:'solid',
   }
 };

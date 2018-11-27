@@ -1,11 +1,7 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
-import * as d3 from 'd3';
 
 import Example1 from './Tabs/Example1';
 import Example2 from './Tabs/Example2';

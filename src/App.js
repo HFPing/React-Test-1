@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
@@ -9,17 +9,35 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import { blue, green } from "@material-ui/core/colors";
 
 import Home from './screens/Home/Home';
 import Plots from './screens/Plots/Plots';
 
-const Error = () => (
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: blue[300],
+      main: blue[500],
+      dark: blue[700]
+    },
+    secondary: {
+      light: green[300],
+      main: green[500],
+      dark: green[700]
+    }
+  },
+  typography: {
+    useNextVariants: true
+  },
+  shape: { borderRadius: 4 }
+});
+
+/*const Error = () => (
   <div>
     <p>Path does not exist</p>
   </div>
-)
+)*/
 
 const styles = {
   root: {
@@ -57,7 +75,7 @@ const Header = ({ classes }) => (
   </AppBar>
 );
 
-const BottomBar = ({ classes }) => (
+/*const BottomBar = ({ classes }) => (
   <AppBar position="absolute" color="primary" className={classes.appBarBottom}>
     <Toolbar className={classes.toolbar}>
       <IconButton color="inherit" aria-label="Open drawer">
@@ -74,11 +92,11 @@ const BottomBar = ({ classes }) => (
     </Toolbar>
   </AppBar>
 );
-
+*/
 
 const App = ({ classes }) => (
   <BrowserRouter>
-    <MuiThemeProvider>
+    <MuiThemeProvider theme={theme}>
       <Header classes={classes} />
       <div style={{ }}>
         <Route exact path="/home" component={Home} />

@@ -1,27 +1,11 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import chroma from 'chroma-js';
+//import chroma from 'chroma-js';
 
 import * as d3 from 'd3';
 
-const styles = {
-  root: {
-    backgroundColor: "#C7D9D9",
-    width: "500",
-    height: "800",
-  }
-};
-
 const w = 650;
 const h = 400;
-const margin = { top: 20, right: 5, bottom: 20, left: 35 };
-const red = '#eb6a5b';
-const green = '#b6e86f';
-const blue = '#52b6ca';
-const colors = chroma.scale([blue, red, green]);
-const dataset = [80, 100, 56, 120, 180, 30, 40, 120, 160];
-const barPadding = 5;
-var barWidth = (2 / dataset.length);
+//const colors = chroma.scale([blue, red, green]);
 
 class Example2 extends PureComponent {
   componentDidMount() {

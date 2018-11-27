@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 import Barchart from '../../../components/BarChart';
 
@@ -30,7 +29,10 @@ class Example1 extends PureComponent {
   render() {
     return (
       <div>
-        <Barchart data={data} />
+        <Barchart
+          data={data}
+          yLabel="% of Total Sales"
+        />
       </div>
     );
   }
