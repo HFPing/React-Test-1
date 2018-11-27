@@ -3,18 +3,34 @@ import PropTypes from 'prop-types';
 
 import Barchart from '../../../components/BarChart';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-    backgroundColor: 'red',
-  }
-};
+const data = [
+  {
+    name: 'BAE',
+    height: 10.88,
+  },
+  {
+    name: 'BOD',
+    height: 42.16,
+  },
+  {
+    name: 'MBO',
+    height: 7.85,
+  },
+  {
+    name: 'SCE',
+    height: 33.39,
+  },
+  {
+    name: 'SUP',
+    height: 5.71,
+  },
+];
 
 class Example1 extends PureComponent {
   render() {
     return (
       <div>
-        <Barchart />
+        <Barchart data={data} />
       </div>
     );
   }
