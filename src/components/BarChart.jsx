@@ -43,6 +43,7 @@ class Barchart extends PureComponent {
     } = style;
 
     const fontSize = 20;
+    const leftPadding = fontSize * 3;
     const widthInt = width - marginLeft - marginRight;
     const heightInt = height - marginTop - marginBottom - fontSize;
 
@@ -61,7 +62,8 @@ class Barchart extends PureComponent {
 
     const y = d3.scaleLinear()
       .domain([0, d3.max(data, (d) => d.height)])
-      .range([0, heightInt]);
+      .range([heightInt, 0]);
+      //.range([0, heightInt]);
 
     const x = d3.scaleBand()
       .domain(nameDomain)
@@ -104,10 +106,12 @@ class Barchart extends PureComponent {
       .data(data)
       .enter()
       .append('rect')
-      .attr('y', marginTop)
+      //.attr('y', marginTop)
+      .attr('y', (d) => y(d.height) + marginTop)
       .attr('x', (d, i) => x(d.name))
       .attr('width', barWidth)
-      .attr('height', (d) => y(d.height))
+      .attr('height', (d) => heightInt - y(d.height))
+      //.attr('height', (d) => y(d.height))
       .attr('fill', (d) => 'grey');
   }
 
