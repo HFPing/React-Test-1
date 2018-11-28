@@ -28,7 +28,7 @@ const data = [
 class Example1 extends PureComponent {
   render() {
     return (
-      <div>
+      <div style={{ backgroundColor: 'gray', width: '50%' }}>
         <Barchart
           data={data}
           yLabel="% of Total Sales"

@@ -118,7 +118,7 @@ class Barchart extends PureComponent {
 
   render () {
     const { style } = this.props;
-    return <div style={style} id="myChart" />;
+    return <div style={style} id="myChart" ref="child" />;
   };
 }
 
@@ -141,13 +141,13 @@ Barchart.defaultProps = {
   xLabel: undefined,
   yLabel: 'Y Axis',
   style: {
-    width: 800,
-    height: 400,
+    width: window.innerWidth,
+    height: window.innerHeight / 2,
     marginLeft: 0,
     marginRight: 0,
     marginTop: 0,
     marginBottom: 0,
-    padding: 0,
+    padding: 10,
     borderColor: 'black',
     borderWidth: 1,
     borderStyle:'',
