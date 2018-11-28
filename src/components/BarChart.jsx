@@ -147,7 +147,7 @@ Barchart.defaultProps = {
     marginRight: 0,
     marginTop: 0,
     marginBottom: 0,
-    padding: 10,
+    padding: 0,
     borderColor: 'black',
     borderWidth: 1,
     borderStyle:'',
