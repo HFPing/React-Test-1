@@ -5,7 +5,7 @@ import Barchart from '../../../components/BarChart';
 const data = [
   {
     name: 'BAE',
-    height: 10.88,
+    height: 27,
   },
   {
     name: 'BOD',

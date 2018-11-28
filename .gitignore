@@ -78,4 +78,10 @@ typings/
 #DynamoDB Local files 
 .dynamodb/ 
 
+# Builds
 build/
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride

@@ -47,7 +47,7 @@ class Barchart extends PureComponent {
     // Y axis scale function
     const y = d3.scaleLinear()
       .domain([0, d3.max(data, (d) => d.height) * 1.1])
-      .range([heightInt - padding, 0]);
+      .range([heightInt, 0]);
 
     // X axis scale function
     const x = d3.scaleBand()
@@ -81,7 +81,7 @@ class Barchart extends PureComponent {
     const xAxisCall = d3.axisBottom(x);
     svg.append('g')
       .attr('class', 'x axis')
-      .attr('transform', `translate(${0}, ${heightInt - padding})`)
+      .attr('transform', `translate(${0}, ${heightInt})`)
       .call(xAxisCall);
     if (xLabel !== undefined) {
       svg.append('text')
@@ -98,7 +98,7 @@ class Barchart extends PureComponent {
       .data(data)
       .enter()
       .append('rect')
-      .attr('y', (d) => y(d.height) - padding)
+      .attr('y', (d) => y(d.height))
       .attr('x', (d, i) => x(d.name))
       .attr('width', barWidth)
       .attr('height', (d) => heightInt - y(d.height))
@@ -111,7 +111,7 @@ class Barchart extends PureComponent {
       .append('text')
       .text((d) => `${d.height}%`)
       .attr('x', (d, i) => x(d.name) + barWidth / 2)
-      .attr('y', (d) => y(d.height) - padding - 5)
+      .attr('y', (d) => y(d.height) - 5)
       .attr('text-anchor', 'middle')
       .attr("fill", "#000000");
   }
@@ -124,7 +124,6 @@ class Barchart extends PureComponent {
 
 Barchart.propTypes = {
   data: PropTypes.array.isRequired,
-  colors: PropTypes.array,
   paddingInner: PropTypes.number,
   paddingOuter: PropTypes.number,
   style: PropTypes.object,
@@ -139,15 +138,16 @@ Barchart.defaultProps = {
   yLabel: 'Y Axis',
   style: {
     width: 800,
-    height: 600,
-    marginLeft: 100,
+    height: 400,
+    marginLeft: 0,
     marginRight: 0,
-    marginTop: 100,
+    marginTop: 0,
     marginBottom: 0,
-    padding: 10,
+    padding: 0,
     borderColor: 'black',
     borderWidth: 1,
-    borderStyle:'solid',
+    borderStyle:'',
+    backgroundColor: '',
   }
 };
 
