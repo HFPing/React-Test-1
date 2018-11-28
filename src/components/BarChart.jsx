@@ -123,7 +123,11 @@ class Barchart extends PureComponent {
 }
 
 Barchart.propTypes = {
-  data: PropTypes.array.isRequired,
+  // Structure of the data array prop
+  data: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    height: PropTypes.number.isRequired,
+  })).isRequired,
   paddingInner: PropTypes.number,
   paddingOuter: PropTypes.number,
   style: PropTypes.object,
