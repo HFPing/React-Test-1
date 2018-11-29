@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://HFPing.github.io/React-Test-1",
   "dependencies": {
+    "@amcharts/amcharts4": "^4.0.2",
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",

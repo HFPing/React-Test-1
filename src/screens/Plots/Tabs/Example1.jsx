@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import Barchart from '../../../components/BarChartTuto/BarChartTuto';
+import Barchart from '../../../components/BarChartAm/BarChartAm';
 
 class Example1 extends PureComponent {
   render() {

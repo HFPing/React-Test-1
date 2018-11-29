@@ -30,9 +30,9 @@ class Plots extends PureComponent {
       <div style={styles.root}>
         <AppBar position="static">
           <Tabs scrollable value={value} onChange={this.handleChange}>
-            <Tab label="D3 Example" />
-            <Tab label="Simple Bar Chart" />
-            <Tab label="Tuto - Barchart" />
+            <Tab label="Main" />
+            <Tab label="D3 Share of Format" />
+            <Tab label="D3 Tuto" />
             <Tab label="Tuto - Annotations" />
             <Tab label="Tuto - Scaling" />
             <Tab label="Tuto - Axis" />
