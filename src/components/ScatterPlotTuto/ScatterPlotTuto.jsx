@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import * as d3 from 'd3';
 
-// TODO: Fix -> Error: too late; already started
-//* Appears when changing tabs, mostly
-
 const data = [
 	{
 		"month": "January",
@@ -54,14 +51,15 @@ let g,
     y,
     xAxisGroup,
     yAxisGroup,
-    flag = false,
+    flag,
     yLabel,
     t,
     newData,
     intervalVar;
 
-class Barchart extends PureComponent {
+class ScatterPlot extends PureComponent {
   componentDidMount() {
+    flag = false;
     this.drawChart();
   }
 
@@ -113,8 +111,8 @@ class Barchart extends PureComponent {
 
     intervalVar = d3.interval(() => {
       newData = flag ? data : data.slice(1);
-      this.update(newData);
       flag = !flag;
+      this.update(newData);
     }, 1000);
 
     // Run for the first time
@@ -122,7 +120,7 @@ class Barchart extends PureComponent {
   }
 
   update (myData) {
-    t = d3.transition().duration(750);
+    t = d3.transition().duration(750); // Fixes: too late; already started'
     const dataSrc = flag ? "revenue" : "profit";
 
     x.domain(myData.map((d) => d.month));
@@ -138,7 +136,7 @@ class Barchart extends PureComponent {
     yAxisGroup.transition(t).call(yAxisCall);
 
     // Join new data with old elements
-    const rects = g.selectAll("rect")
+    const rects = g.selectAll("circle")
       // Match the column data with a spacial key, insted of the array index
       .data(myData, (d) => d.month);
 
@@ -146,28 +144,24 @@ class Barchart extends PureComponent {
     rects.exit()
         .attr('fill', 'red')
       .transition(t)
-        .attr("y", y(0))
-        .attr("height", 0)
+        .attr("cy", y(0))
         .remove();
 
     // Update old elements present in new data
     rects.transition(t)
-      .attr("y", (d) => y(d[dataSrc]))
-      .attr("x", (d) => x(d.month))
-      .attr("height", (d) => height - y(d[dataSrc]))
-      .attr("width", x.bandwidth());
+      .attr("cy", (d) => y(d[dataSrc]))
+      .attr("cx", (d) => x(d.month) + x.bandwidth() / 2)
+      .attr("r", 5);
 
     // Enter new elements present in new data
     rects.enter()
-      .append("rect")
-        .attr("x", (d) => x(d.month))
-        .attr("y", y(0))
-        .attr("height", 0)
-        .attr("width", x.bandwidth())
+      .append("circle")
+        .attr("cx", (d) => x(d.month) + x.bandwidth() / 2)
+        .attr("cy", y(0))
+        .attr("r", 5)
         .attr("fill", "grey")
       .transition(t)
-        .attr("y", (d) => y(d[dataSrc]))
-        .attr("height", (d) => height - y(d[dataSrc]));
+        .attr("cy", (d) => y(d[dataSrc]));
 
     yLabel.text(flag ? 'Revenue' : 'Profit');
   }
@@ -177,12 +171,12 @@ class Barchart extends PureComponent {
   };
 }
 
-Barchart.propTypes = {
+ScatterPlot.propTypes = {
 
 };
 
-Barchart.defaultProps = {
+ScatterPlot.defaultProps = {
 
 };
 
-export default Barchart;
+export default ScatterPlot;
