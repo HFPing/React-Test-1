@@ -52,7 +52,9 @@ let g,
     xAxisGroup,
     yAxisGroup,
     flag = false,
-    yLabel;
+    yLabel,
+    t = d3.transition().duration(750),
+    newData;
 
 class Barchart extends PureComponent {
   componentDidMount() {
@@ -101,51 +103,61 @@ class Barchart extends PureComponent {
       .text("Revenue");
 
     d3.interval(() => {
+      newData = flag ? data : data.slice(1);
       flag = !flag;
-      this.update();
+      this.update(newData);
     }, 1000);
 
     // Run for the first time
-    this.update();
+    this.update(data);
   }
 
-  update () {
+  update (myData) {
     const dataSrc = flag ? "revenue" : "profit";
 
-    x.domain(data.map((d) => d.month));
-    y.domain([0, d3.max(data,(d) => d[dataSrc])]);
+    x.domain(myData.map((d) => d.month));
+    y.domain([0, d3.max(myData,(d) => d[dataSrc])]);
 
     // X Axis
     const xAxisCall = d3.axisBottom(x);
-    xAxisGroup.call(xAxisCall);
+    xAxisGroup.transition(t).call(xAxisCall);
     
     // Y Axis
     const yAxisCall = d3.axisLeft(y)
       .tickFormat((d) => "$" + d);
-    yAxisGroup.call(yAxisCall);
+    yAxisGroup.transition(t).call(yAxisCall);
 
     // Join new data with old elements
     const rects = g.selectAll("rect")
-      .data(data);
+      // Match the column data with a spacial key, insted of the array index
+      .data(myData, (d) => d.month);
 
     // Exit old elements not present in new data
-    rects.exit().remove();
+    rects.exit()
+        .attr('fill', 'red')
+      .transition(t)
+        .attr("y", y(0))
+        .attr("height", 0)
+        .remove();
 
     // Update old elements present in new data
-    rects
+    rects.transition(t)
       .attr("y", (d) => y(d[dataSrc]))
       .attr("x", (d) => x(d.month))
       .attr("height", (d) => height - y(d[dataSrc]))
       .attr("width", x.bandwidth);
 
-    // enter new elements present in new data
+    // Enter new elements present in new data
     rects.enter()
       .append("rect")
-        .attr("y", (d) => y(d[dataSrc]))
         .attr("x", (d) => x(d.month))
-        .attr("height", (d) => height - y(d[dataSrc]))
+        .attr("y", y(0))
+        .attr("height", 0)
         .attr("width", x.bandwidth)
-        .attr("fill", "grey");
+        .attr("fill", "grey")
+      .transition(t)
+        .attr("y", (d) => y(d[dataSrc]))
+        .attr("height", (d) => height - y(d[dataSrc]));
 
     yLabel.text(flag ? 'Revenue' : 'Profit');
   }
