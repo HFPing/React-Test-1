@@ -33,7 +33,7 @@ class Plots extends PureComponent {
             <Tab label="Main" />
             <Tab label="D3 Share of Format" />
             <Tab label="D3 Tuto" />
-            <Tab label="Tuto - Annotations" />
+            <Tab label="Am Charts Demo" />
             <Tab label="Tuto - Scaling" />
             <Tab label="Tuto - Axis" />
             <Tab label="Tuto - SVG Elements" />
