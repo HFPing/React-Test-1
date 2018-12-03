@@ -1,7 +1,7 @@
 {
   "main.css": "/React-Test-1/static/css/main.05e6f899.chunk.css",
-  "main.js": "/React-Test-1/static/js/main.bfa66177.chunk.js",
-  "main.js.map": "/React-Test-1/static/js/main.bfa66177.chunk.js.map",
+  "main.js": "/React-Test-1/static/js/main.348643ab.chunk.js",
+  "main.js.map": "/React-Test-1/static/js/main.348643ab.chunk.js.map",
   "xlsx.js": "/React-Test-1/static/js/xlsx.0751eb6b.chunk.js",
   "xlsx.js.map": "/React-Test-1/static/js/xlsx.0751eb6b.chunk.js.map",
   "responsivedefaults.js": "/React-Test-1/static/js/responsivedefaults.7681f91d.chunk.js",
@@ -18,6 +18,6 @@
   "runtime~main.js.map": "/React-Test-1/static/js/runtime~main.85c109e6.js.map",
   "static/css/main.05e6f899.chunk.css.map": "/React-Test-1/static/css/main.05e6f899.chunk.css.map",
   "index.html": "/React-Test-1/index.html",
-  "precache-manifest.6852b4cff3b12dab605aa08722484c8d.js": "/React-Test-1/precache-manifest.6852b4cff3b12dab605aa08722484c8d.js",
+  "precache-manifest.2694c2e36b599ad0a46bc4fa1388248d.js": "/React-Test-1/precache-manifest.2694c2e36b599ad0a46bc4fa1388248d.js",
   "service-worker.js": "/React-Test-1/service-worker.js"
 }
