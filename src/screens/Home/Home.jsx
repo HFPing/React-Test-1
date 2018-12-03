@@ -10,6 +10,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
+import Drawer from '../../components/Drawer';
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -31,20 +33,6 @@ const styles = {
   },
 };
 
-const Header = ({ classes }) => (
-  <AppBar position="static">
-    <Toolbar>
-      <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-        <MenuIcon />
-      </IconButton>
-      <Typography variant="h6" color="inherit" className={classes.grow}>
-        Home Screen
-      </Typography>
-      <Button color="inherit">Login</Button>
-    </Toolbar>
-  </AppBar>
-);
-
 const BottomBar = ({ classes }) => (
   <AppBar position="fixed" color="primary" className={classes.appBarBottom}>
     <Toolbar className={classes.toolbar}>
@@ -64,14 +52,47 @@ const BottomBar = ({ classes }) => (
 );
 
 class Home extends PureComponent {
+  state = {
+    drawerOpen: false,
+  };
+
+  handleDrawerToggle = () => this.setState({ drawerOpen: !this.state.drawerOpen });
+
+  renderHeader = ({ classes }) => (
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="Menu"
+          onClick={this.handleDrawerToggle}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" color="inherit" className={classes.grow}>
+          Home Screen
+        </Typography>
+        <Button color="inherit">Login</Button>
+      </Toolbar>
+    </AppBar>
+  );
+
   render() {
+    const { drawerOpen } = this.state;
     const { classes } = this.props;
+    const Header = this.renderHeader;
+
     return (
       <div className={classes.root}>
         <CssBaseline />
         <Header classes={classes} />
           Home Screen
         <BottomBar classes={classes} />
+        <Drawer
+          container={this.props.container}
+          open={drawerOpen}
+          onClose={this.handleDrawerToggle}
+          anchor="left" />
       </div>
     );
   }
