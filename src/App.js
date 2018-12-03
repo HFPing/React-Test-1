@@ -33,7 +33,7 @@ const ErrorScreen = () => (
 )
 
 const App = ({ classes }) => (
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <Switch>
