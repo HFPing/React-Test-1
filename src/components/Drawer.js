@@ -35,7 +35,6 @@ class MyDrawer extends PureComponent {
       open,
       anchor,
       container,
-      history,
     } = this.props;
 
     return (
