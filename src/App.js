@@ -6,6 +6,7 @@ import { blue, green } from "@material-ui/core/colors";
 
 import Home from './screens/Home/Home';
 import Plots from './screens/Plots/Plots';
+import TestApp1 from './screens/TestApp1/TestApp1';
 
 const theme = createMuiTheme({
   palette: {
@@ -39,6 +40,7 @@ const App = ({ classes }) => (
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/plots" component={Plots} />
+        <Route exact path="/testApp" component={TestApp1} />
         <Route path="/*" component={ErrorScreen} />
       </Switch>
     </MuiThemeProvider>

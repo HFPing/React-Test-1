@@ -12,6 +12,7 @@ import {
 import {
   Home,
   PieChart,
+  ShoppingCart,
 } from "@material-ui/icons";
 import { Icon } from 'react-icons-kit'
 import { microchip } from 'react-icons-kit/fa/microchip'
@@ -59,6 +60,10 @@ class MyDrawer extends PureComponent {
               <ListItem button>
                 <ListItemIcon><Icon icon={microchip} /></ListItemIcon>
                 <ListItemText primary="Web GL" />
+              </ListItem>
+              <ListItem button onClick={this.navigateToScreen('/testApp')}>
+                <ListItemIcon><ShoppingCart /></ListItemIcon>
+                <ListItemText primary="Test App" />
               </ListItem>
             </List>
         </Drawer>
