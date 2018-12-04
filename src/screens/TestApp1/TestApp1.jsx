@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { CssBaseline } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';

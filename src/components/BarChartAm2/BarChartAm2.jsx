@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import PropTypes from 'prop-types';
 
 import dummyDataArr from './data.json';
 
@@ -69,7 +68,7 @@ class ClusterBarchart extends PureComponent {
   }
 
   render () {
-    return <div id="clusterchartdiv"  style={{ width: "100%", height: "500px" }} />;
+    return <div id="clusterchartdiv" style={{ width: "100%", height: "500px" }} />;
   };
 }
 
