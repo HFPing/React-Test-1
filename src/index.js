@@ -1,7 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import WebFont from 'webfontloader';
 import App from './App';
 import * as serviceWorker from './utils/serviceWorker';
+
+WebFont.load({
+  google: {
+    families: [
+      'Monoton',
+      'sans-serif',
+      'Bungee',
+      'Roboto'
+    ]
+  }
+});
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
