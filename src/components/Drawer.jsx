@@ -14,15 +14,14 @@ import {
   PieChart,
   ShoppingCart,
 } from "@material-ui/icons";
-import { Icon } from 'react-icons-kit'
-import { microchip } from 'react-icons-kit/fa/microchip'
+import { Icon } from 'react-icons-kit';
+import { microchip } from 'react-icons-kit/fa/microchip';
 
 const DRAWER_WIDTH = 240;
 
 class MyDrawer extends PureComponent {
   activeRoute =
-    (routeName) =>
-      this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
+    (routeName) => this.props.location.pathname === routeName;
 
   navigateToScreen = (screen) => () => {
     const { history } = this.props;
@@ -49,11 +48,19 @@ class MyDrawer extends PureComponent {
           classes={{ paper: classes.drawerPaper }}
           ModalProps={{ keepMounted: true }}>
             <List>
-              <ListItem button onClick={this.navigateToScreen('/')}>
+              <ListItem
+                button
+                selected={this.activeRoute('/')}
+                onClick={this.navigateToScreen('/')}
+              >
                 <ListItemIcon><Home /></ListItemIcon>
                 <ListItemText primary="Home" />
               </ListItem>
-              <ListItem button onClick={this.navigateToScreen('/plots')}>
+              <ListItem
+                button
+                selected={this.activeRoute('/plots')}
+                onClick={this.navigateToScreen('/plots')}
+              >
                 <ListItemIcon><PieChart /></ListItemIcon>
                 <ListItemText primary="Charts" />
               </ListItem>
@@ -61,7 +68,11 @@ class MyDrawer extends PureComponent {
                 <ListItemIcon><Icon icon={microchip} /></ListItemIcon>
                 <ListItemText primary="Web GL" />
               </ListItem>
-              <ListItem button onClick={this.navigateToScreen('/testApp')}>
+              <ListItem
+                button
+                selected={this.activeRoute('/testApp')}
+                onClick={this.navigateToScreen('/testApp')}
+              >
                 <ListItemIcon><ShoppingCart /></ListItemIcon>
                 <ListItemText primary="Test App" />
               </ListItem>
