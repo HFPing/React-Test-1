@@ -1,34 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
 
 import Home from './screens/Home/Home';
+import Plots from './screens/Plots/Plots';
+import TestApp1 from './screens/TestApp1/TestApp1';
+import Dashboard from './screens/TestApp1/Nav/Dashboard/Dashboard';
+import TextPage from './screens/TestApp1/Nav/TextPage/TextPage';
 
-const Root = ({ route, children }) => (
+const ErrorScreen = () => (
   <div>
-    {renderRoutes(route.routes)}
-    {children}     
+    <p>Path does not exist</p>
   </div>
-);
+)
 
-Root.propTypes = {
-  route: PropTypes.object,
-  children: PropTypes.object
+export const PATHS = {
+  HOME: '/',
+  PLOTS: '/plots',
+  TEST_APP_1_HOME: '/testApp',
+  TEST_APP_1_TEXT: '/testApp/textDemo'
 };
 
 const routes = [
   {
-    path: "/",
-    component: withRouter(Root),
+    path: PATHS.HOME,
+    component: Home,
+    exact: true,
+  },
+  {
+    path: PATHS.PLOTS,
+    component: Plots
+  },
+  {
+    path: PATHS.TEST_APP_1_HOME,
+    component: TestApp1,
     routes: [
       {
-        path: "/",
+        path: PATHS.TEST_APP_1_HOME,
+        component: Dashboard,
         exact: true,
-        component: Home,
-      }
-    ],
-  }
+      },
+      {
+        path: PATHS.TEST_APP_1_TEXT,
+        component: TextPage
+      },
+      {
+        path: "/*",
+        component: ErrorScreen
+      },
+    ]
+  },
+  {
+    path: "/*",
+    component: ErrorScreen
+  },
 ];
 
-export { routes };
+export default routes;

@@ -4,9 +4,9 @@ import { CssBaseline } from "@material-ui/core";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue, green } from "@material-ui/core/colors";
 
-import Home from './screens/Home/Home';
-import Plots from './screens/Plots/Plots';
-import TestApp1 from './screens/TestApp1/TestApp1';
+import { RouteWithSubRoutes } from './components';
+
+import routes from './routes';
 
 const theme = createMuiTheme({
   palette: {
@@ -27,24 +27,16 @@ const theme = createMuiTheme({
   shape: { borderRadius: 4 }
 });
 
-const ErrorScreen = () => (
-  <div>
-    <p>Path does not exist</p>
-  </div>
-)
 
 const App = ({ classes }) => (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
+  <MuiThemeProvider theme={theme}>
+    <CssBaseline />
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/plots" component={Plots} />
-        <Route exact path="/testApp" component={TestApp1} />
-        <Route path="/*" component={ErrorScreen} />
+        {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
       </Switch>
-    </MuiThemeProvider>
-  </BrowserRouter>
+    </BrowserRouter>
+  </MuiThemeProvider>
 );
 
 export default App;
