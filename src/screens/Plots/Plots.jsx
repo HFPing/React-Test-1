@@ -102,7 +102,6 @@ class Plots extends PureComponent {
         {value === 7 && <Example8 />}
         {value === 8 && <Example9 />}
         <Drawer
-          container={this.props.container}
           open={drawerOpen}
           onClose={this.handleDrawerToggle}
           anchor="left" />

@@ -17,10 +17,13 @@ import {
   Dashboard,
   Feedback,
   Language,
-  ExitToApp
+  ExitToApp,
+  Description,
 } from "@material-ui/icons";
 
-export const DRAWER_WIDTH = 300;
+import { PATHS } from "../routes";
+
+export const DRAWER_WIDTH = 270;
 
 class ResponsiveDrawer extends PureComponent {
   activeRoute =
@@ -38,21 +41,31 @@ class ResponsiveDrawer extends PureComponent {
         </Toolbar>
       </AppBar>
       <List>
-        <ListItem button>
+        <ListItem
+          button
+          selected={this.activeRoute(PATHS.TEST_APP_1_HOME)}
+          onClick={this.navigateToScreen(PATHS.TEST_APP_1_HOME)}
+        >
           <ListItemIcon><Dashboard /></ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
+        <ListItem
+          button
+          selected={this.activeRoute(PATHS.TEST_APP_1_TEXT)}
+          onClick={this.navigateToScreen(PATHS.TEST_APP_1_TEXT)}
+        >
+          <ListItemIcon><Description /></ListItemIcon>
+          <ListItemText primary="Text Page" />
+        </ListItem>
         <Divider />
-        <div style={{ flex: 1, flexGrow: 1 }}>
-          <ListItem button>
-            <ListItemIcon><Feedback /></ListItemIcon>
-            <ListItemText primary="Feedback" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon><Language /></ListItemIcon>
-            <ListItemText primary="Change Language" />
-          </ListItem>
-        </div>
+        <ListItem button>
+          <ListItemIcon><Feedback /></ListItemIcon>
+          <ListItemText primary="Feedback" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon><Language /></ListItemIcon>
+          <ListItemText primary="Change Language" />
+        </ListItem>
         <Divider />
         <ListItem button>
           <ListItemIcon><ExitToApp /></ListItemIcon>
@@ -68,7 +81,6 @@ class ResponsiveDrawer extends PureComponent {
       onClose,
       open,
       anchor,
-      container,
     } = this.props;
     const DrawerContent = this.renderDrawerContent;
 
@@ -76,7 +88,6 @@ class ResponsiveDrawer extends PureComponent {
       <nav className={classes.drawer}>
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
             anchor={anchor}
             open={open}

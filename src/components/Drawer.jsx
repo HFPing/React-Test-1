@@ -17,6 +17,8 @@ import {
 import { Icon } from 'react-icons-kit';
 import { microchip } from 'react-icons-kit/fa/microchip';
 
+import { PATHS } from "../routes";
+
 const DRAWER_WIDTH = 240;
 
 class MyDrawer extends PureComponent {
@@ -34,7 +36,6 @@ class MyDrawer extends PureComponent {
       onClose,
       open,
       anchor,
-      container,
     } = this.props;
 
     return (
@@ -43,23 +44,22 @@ class MyDrawer extends PureComponent {
           open={open}
           anchor={anchor}
           onClose={onClose}
-          container={container}
           variant="temporary"
           classes={{ paper: classes.drawerPaper }}
           ModalProps={{ keepMounted: true }}>
             <List>
               <ListItem
                 button
-                selected={this.activeRoute('/')}
-                onClick={this.navigateToScreen('/')}
+                selected={this.activeRoute(PATHS.HOME)}
+                onClick={this.navigateToScreen(PATHS.HOME)}
               >
                 <ListItemIcon><Home /></ListItemIcon>
                 <ListItemText primary="Home" />
               </ListItem>
               <ListItem
                 button
-                selected={this.activeRoute('/plots')}
-                onClick={this.navigateToScreen('/plots')}
+                selected={this.activeRoute(PATHS.PLOTS)}
+                onClick={this.navigateToScreen(PATHS.PLOTS)}
               >
                 <ListItemIcon><PieChart /></ListItemIcon>
                 <ListItemText primary="Charts" />
@@ -70,8 +70,8 @@ class MyDrawer extends PureComponent {
               </ListItem>
               <ListItem
                 button
-                selected={this.activeRoute('/testApp')}
-                onClick={this.navigateToScreen('/testApp')}
+                selected={this.activeRoute(PATHS.TEST_APP_1_HOME)}
+                onClick={this.navigateToScreen(PATHS.TEST_APP_1_HOME)}
               >
                 <ListItemIcon><ShoppingCart /></ListItemIcon>
                 <ListItemText primary="Test App" />

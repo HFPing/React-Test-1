@@ -91,7 +91,6 @@ class Home extends PureComponent {
           Home Screen
         <BottomBar classes={classes} />
         <Drawer
-          container={this.props.container}
           open={drawerOpen}
           onClose={this.handleDrawerToggle}
           anchor="left" />
