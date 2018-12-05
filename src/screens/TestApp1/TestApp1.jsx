@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import styled from "styled-components";
+import { Route, Switch } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -11,16 +13,20 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Icon } from 'react-icons-kit';
 import { u1F6A7 } from 'react-icons-kit/noto_emoji_regular/u1F6A7';
 
-import Drawer from '../../components/Drawer';
-import ResponsiveDrawer, { DRAWER_WIDTH } from '../../components/ResponsiveDrawer';
+import { Drawer, RouteWithSubRoutes, ResponsiveDrawer } from '../../components';
+import { DRAWER_WIDTH } from '../../components/ResponsiveDrawer';
 
 const logo = require('../../assets/TestApp1/logo.png');
 const profile = require('../../assets/TestApp1/profile.jpg');
 
+const Div = styled.div`
+  height: 100vh;
+  background-color: green;
+`;
+
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
+    backgroundColor: 'red',
   },
   grow: {
     flexGrow: 1,
@@ -63,8 +69,6 @@ const styles = theme => ({
     right: theme.spacing.unit * 2,
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
     marginLeft: DRAWER_WIDTH,
     [theme.breakpoints.down('xs')]: {
       marginLeft: 0,
@@ -118,26 +122,18 @@ class TestApp1 extends PureComponent {
 
   render() {
     const { drawerOpen, mobileOpen } = this.state;
-    const { classes, container } = this.props;
+    const { classes, routes } = this.props;
     const Header = this.renderHeader;
+    console.log(this.props);
 
     return (
-      <div className={classes.root}>
+      <Div>
         <Header classes={classes} />
-        <main className={classes.content}>
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent
-            elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in
-            hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum
-            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing.
-            Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis
-            viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo.
-            Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus
-            at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed
-            ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-          </Typography>
-        </main>
+        <div className={classes.content}>
+          <Switch>
+            {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
+          </Switch>
+        </div>
         <Fab
           color="primary"
           className={classes.fab}
@@ -150,11 +146,10 @@ class TestApp1 extends PureComponent {
           onClose={this.handleMobileDrawerToggle}
           anchor="left" />
         <Drawer
-          container={container}
           open={drawerOpen}
           onClose={this.handleDrawerToggle}
           anchor="left" />
-      </div>
+      </Div>
     );
   }
 }
