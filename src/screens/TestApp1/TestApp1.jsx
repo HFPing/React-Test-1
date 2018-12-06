@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import styled from "styled-components";
+import styled from 'styled-components';
 import { Switch } from 'react-router-dom';
 import {
   AppBar,
@@ -21,11 +21,12 @@ const profile = require('../../assets/TestApp1/profile.jpg');
 
 const Div = styled.div`
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 const styles = theme => ({
   root: {
-    backgroundColor: 'red',
   },
   grow: {
     flexGrow: 1,
@@ -68,6 +69,7 @@ const styles = theme => ({
     right: theme.spacing.unit * 2,
   },
   content: {
+    flex: 1,
     marginLeft: DRAWER_WIDTH,
     [theme.breakpoints.down('xs')]: {
       marginLeft: 0,
@@ -84,11 +86,11 @@ class TestApp1 extends PureComponent {
     };
   }
 
-  handleDrawerToggle = () =>
-    this.setState({ drawerOpen: !this.state.drawerOpen });
+  handleDrawerToggle =
+    () => this.setState({ drawerOpen: !this.state.drawerOpen });
 
-  handleMobileDrawerToggle = () =>
-    this.setState({ mobileOpen: !this.state.mobileOpen });
+  handleMobileDrawerToggle =
+    () => this.setState({ mobileOpen: !this.state.mobileOpen });
 
   renderHeader = ({ classes }) => (
     <div>
@@ -108,13 +110,13 @@ class TestApp1 extends PureComponent {
           </Typography>
           <img src={profile} className={classes.profilePic} alt="Nada" />
           <Typography variant="subtitle1" color="inherit">
-            <b>John Cena</b> / Store 1212 
+            <b>John Cena</b>
+            / Store 1212
           </Typography>
         </Toolbar>
       </AppBar>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
-        </Toolbar>
+        <Toolbar />
       </AppBar>
     </div>
   );
@@ -142,11 +144,13 @@ class TestApp1 extends PureComponent {
         <ResponsiveDrawer
           open={mobileOpen}
           onClose={this.handleMobileDrawerToggle}
-          anchor="left" />
+          anchor="left"
+        />
         <Drawer
           open={drawerOpen}
           onClose={this.handleDrawerToggle}
-          anchor="left" />
+          anchor="left"
+        />
       </Div>
     );
   }
