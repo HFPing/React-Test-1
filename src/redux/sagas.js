@@ -1,11 +1,16 @@
-import { put } from "redux-saga/effects";
+import { delay } from 'redux-saga';
+import { put, takeEvery, all } from 'redux-saga/effects';
 
-const fetchSomeDataSaga = function *(action) {
+function* fetchSomeDataSaga(action) {
   console.log('Action in saga: ', action);
   if (action) {
-    yield "9";
-    yield put({ type: "Saga finished" });
+    yield '9';
+    yield put({ type: 'Saga finished' });
   }
-};
+}
 
-export { fetchSomeDataSaga };
+export default function* rootSaga() {
+  yield all([
+    fetchSomeDataSaga(),
+  ]);
+}

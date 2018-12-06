@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import WebFont from 'webfontloader';
 import App from './App';
-import * as serviceWorker from './utils/serviceWorker';
+import * as serviceWorker from './config/serviceWorker';
 
 WebFont.load({
   google: {
@@ -10,11 +10,12 @@ WebFont.load({
       'Monoton',
       'sans-serif',
       'Bungee',
-      'Roboto'
-    ]
-  }
+      'Roboto',
+    ],
+  },
 });
 
+// eslint-disable-next-line
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
