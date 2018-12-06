@@ -35,7 +35,6 @@ const listsReducer = (state, { type, payload }) => {
 
 // Root reducer
 const REDUCERS = (state, action = { type: '' }) => {
-  console.log('Reducer: ', action);
   return {
     ...state,
     system: systemReducer(state.system, action),

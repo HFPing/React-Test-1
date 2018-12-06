@@ -37,7 +37,6 @@ class Dashboard extends PureComponent {
 
   render() {
     const { classes, system } = this.props;
-    console.log(this.props);
 
     if (system.loading) {
       return (

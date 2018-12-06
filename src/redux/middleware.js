@@ -15,7 +15,6 @@ async function initDashboardData() {
 const dashboardMiddleware = ({ getState, dispatch }) => next => action => {
   switch (action.type) {
     case TYPES.INIT_DASHBOARD:
-      console.log('In middleware: ', action);
       next(action);
       initDashboardData()
         .then(res => {
