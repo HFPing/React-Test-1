@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Home from './screens/Home/Home';
 import Plots from './screens/Plots/Plots';

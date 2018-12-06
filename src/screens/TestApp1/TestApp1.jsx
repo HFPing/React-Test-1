@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import styled from "styled-components";
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -21,7 +21,6 @@ const profile = require('../../assets/TestApp1/profile.jpg');
 
 const Div = styled.div`
   height: 100vh;
-  background-color: green;
 `;
 
 const styles = theme => ({
@@ -39,7 +38,7 @@ const styles = theme => ({
       display: 'none',
     },
   },
-  appBarResponsive: {
+  appBar: {
     marginLeft: DRAWER_WIDTH,
     backgroundColor: '#F5F5F5',
     borderStyle: 'solid',
@@ -113,7 +112,7 @@ class TestApp1 extends PureComponent {
           </Typography>
         </Toolbar>
       </AppBar>
-      <AppBar position="static" className={classes.appBarResponsive}>
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar>
         </Toolbar>
       </AppBar>
@@ -124,7 +123,6 @@ class TestApp1 extends PureComponent {
     const { drawerOpen, mobileOpen } = this.state;
     const { classes, routes } = this.props;
     const Header = this.renderHeader;
-    console.log(this.props);
 
     return (
       <Div>
