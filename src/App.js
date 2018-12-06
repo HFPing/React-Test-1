@@ -22,6 +22,9 @@ const theme = createMuiTheme({
       main: '#FCC201',
       dark: green[700],
     },
+    text: {
+      secondary: 'white',
+    },
   },
   typography: {
     useNextVariants: true,

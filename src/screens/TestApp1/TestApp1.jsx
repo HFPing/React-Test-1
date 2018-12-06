@@ -57,6 +57,14 @@ const styles = theme => ({
     height: 50,
     marginRight: 20,
   },
+  profileSection: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
+  },
   profilePic: {
     width: 50,
     height: 50,
@@ -108,11 +116,13 @@ class TestApp1 extends PureComponent {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Shop App
           </Typography>
-          <img src={profile} className={classes.profilePic} alt="Nada" />
-          <Typography variant="subtitle1" color="inherit">
-            <b>John Cena</b>
-            / Store 1212
-          </Typography>
+          <div className={classes.profileSection}>
+            <img src={profile} className={classes.profilePic} alt="Nada" />
+            <Typography variant="subtitle1" color="inherit">
+              <b>John Cena</b>
+              / Store 1212
+            </Typography>
+          </div>
         </Toolbar>
       </AppBar>
       <AppBar position="static" className={classes.appBar}>
@@ -126,9 +136,14 @@ class TestApp1 extends PureComponent {
     const { classes, routes } = this.props;
     const Header = this.renderHeader;
 
+    const userObj = {
+      name: 'John Cena',
+      storeNbr: 1212,
+    };
+
     return (
       <Div>
-        <Header classes={classes} />
+        <Header classes={classes} user={userObj} />
         <div className={classes.content}>
           <Switch>
             {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
@@ -142,6 +157,7 @@ class TestApp1 extends PureComponent {
           <Icon icon={u1F6A7} size={32} />
         </Fab>
         <ResponsiveDrawer
+          user={userObj}
           open={mobileOpen}
           onClose={this.handleMobileDrawerToggle}
           anchor="left"

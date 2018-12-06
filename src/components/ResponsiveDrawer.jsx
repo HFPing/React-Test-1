@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router";
-import { withStyles } from "@material-ui/core/styles";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { withStyles } from '@material-ui/core/styles';
 import {
   List,
   ListItem,
@@ -11,17 +11,20 @@ import {
   Hidden,
   Toolbar,
   AppBar,
-  Divider
-} from "@material-ui/core";
+  Divider,
+  Typography,
+} from '@material-ui/core';
 import {
   Dashboard,
   Feedback,
   Language,
   ExitToApp,
   Description,
-} from "@material-ui/icons";
+} from '@material-ui/icons';
 
-import { PATHS } from "../routes";
+import { PATHS } from '../routes';
+
+const profile = require('../assets/TestApp1/profile.jpg');
 
 export const DRAWER_WIDTH = 270;
 
@@ -35,12 +38,18 @@ class ResponsiveDrawer extends PureComponent {
     history.push(screen);
   }
 
-  renderDrawerContent = ({ classes, mobile }) => (
+  renderDrawerContent = ({ classes, mobile, user }) => (
     <div>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
-        </Toolbar>
+        <Toolbar />
       </AppBar>
+      <div className={classes.profileSection}>
+        <img src={profile} className={classes.profilePic} alt="Nada" />
+        <Typography variant="subtitle1" color="textSecondary">
+          <b>{user.name}</b>
+          {` / Store ${user.storeNbr}`}
+        </Typography>
+      </div>
       <List>
         <ListItem
           button
@@ -82,6 +91,7 @@ class ResponsiveDrawer extends PureComponent {
       onClose,
       open,
       anchor,
+      user,
     } = this.props;
     const DrawerContent = this.renderDrawerContent;
 
@@ -96,7 +106,7 @@ class ResponsiveDrawer extends PureComponent {
             classes={{ paper: classes.drawerPaper }}
             ModalProps={{ keepMounted: true }}
           >
-            <DrawerContent classes={classes} mobile={true} />
+            <DrawerContent classes={classes} user={user} mobile />
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -105,7 +115,7 @@ class ResponsiveDrawer extends PureComponent {
             variant="permanent"
             open
           >
-            <DrawerContent classes={classes} mobile={false}  />
+            <DrawerContent classes={classes} user={user} mobile={false} />
           </Drawer>
         </Hidden>
       </nav>
@@ -114,7 +124,16 @@ class ResponsiveDrawer extends PureComponent {
 }
 
 ResponsiveDrawer.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.shape({}).isRequired,
+  anchor: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({
+    user: PropTypes.string,
+    storeNbr: PropTypes.number,
+  }).isRequired,
 };
 
 const styles = theme => ({
@@ -139,7 +158,20 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       marginTop: 0,
     },
-  }
+  },
+  profileSection: {
+    backgroundColor: theme.palette.primary.main,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  profilePic: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginRight: 50,
+  },
 });
 
 export default withRouter(withStyles(styles)(ResponsiveDrawer));
