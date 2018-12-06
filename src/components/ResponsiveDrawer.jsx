@@ -29,12 +29,13 @@ class ResponsiveDrawer extends PureComponent {
   activeRoute =
     (routeName) => this.props.location.pathname === routeName;
 
-  navigateToScreen = (screen) => () => {
-    const { history } = this.props;
+  navigateToScreen = (screen, mobile) => () => {
+    const { history, onClose } = this.props;
+    if (mobile) onClose();
     history.push(screen);
   }
 
-  renderDrawerContent = ({ classes }) => (
+  renderDrawerContent = ({ classes, mobile }) => (
     <div>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
@@ -44,7 +45,7 @@ class ResponsiveDrawer extends PureComponent {
         <ListItem
           button
           selected={this.activeRoute(PATHS.TEST_APP_1_HOME)}
-          onClick={this.navigateToScreen(PATHS.TEST_APP_1_HOME)}
+          onClick={this.navigateToScreen(PATHS.TEST_APP_1_HOME, mobile)}
         >
           <ListItemIcon><Dashboard /></ListItemIcon>
           <ListItemText primary="Dashboard" />
@@ -52,7 +53,7 @@ class ResponsiveDrawer extends PureComponent {
         <ListItem
           button
           selected={this.activeRoute(PATHS.TEST_APP_1_TEXT)}
-          onClick={this.navigateToScreen(PATHS.TEST_APP_1_TEXT)}
+          onClick={this.navigateToScreen(PATHS.TEST_APP_1_TEXT, mobile)}
         >
           <ListItemIcon><Description /></ListItemIcon>
           <ListItemText primary="Text Page" />
@@ -95,7 +96,7 @@ class ResponsiveDrawer extends PureComponent {
             classes={{ paper: classes.drawerPaper }}
             ModalProps={{ keepMounted: true }}
           >
-            <DrawerContent classes={classes} />
+            <DrawerContent classes={classes} mobile={true} />
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -104,7 +105,7 @@ class ResponsiveDrawer extends PureComponent {
             variant="permanent"
             open
           >
-            <DrawerContent classes={classes} />
+            <DrawerContent classes={classes} mobile={false}  />
           </Drawer>
         </Hidden>
       </nav>
