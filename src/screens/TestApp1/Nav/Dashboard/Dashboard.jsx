@@ -1,23 +1,21 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles';
 import {
-  AppBar,
-  Toolbar,
   Typography,
   IconButton,
-  Fab,
 } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
+    backgroundCoor: '#EEE',
   },
 });
 
 class Dashboard extends PureComponent {
   render() {
-    const { classes } = this.props;
+    const { classes, dispatch } = this.props;
+    console.log(this.props);
 
     return (
       <div className={classes.root}>
@@ -27,4 +25,8 @@ class Dashboard extends PureComponent {
   }
 }
 
-export default withStyles(styles)(Dashboard);
+const mapStateToProps = (state) => {
+  return {};
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Dashboard));

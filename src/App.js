@@ -1,10 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from "react-redux";
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { CssBaseline } from "@material-ui/core";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue, green } from "@material-ui/core/colors";
 
 import { RouteWithSubRoutes } from './components';
+import { configureStore } from './redux/store';
 
 import routes from './routes';
 
@@ -27,16 +29,19 @@ const theme = createMuiTheme({
   shape: { borderRadius: 4 }
 });
 
+const store = configureStore();
 
 const App = ({ classes }) => (
-  <MuiThemeProvider theme={theme}>
-    <CssBaseline />
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Switch>
-        {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
-      </Switch>
-    </BrowserRouter>
-  </MuiThemeProvider>
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Switch>
+          {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
+        </Switch>
+      </BrowserRouter>
+    </MuiThemeProvider>
+  </Provider>
 );
 
 export default App;
