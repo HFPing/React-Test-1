@@ -1,0 +1,10 @@
+.list {
+  /* background-color: #fff; */
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
