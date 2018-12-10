@@ -11,6 +11,7 @@ import {
 import { ACTIONS, TYPES } from '../../../../redux/actions';
 
 import CompetitorsList from './CompetitorsList/CompetitorsList';
+import ShoppinglistsList from './ShoppinglistsList/ShoppinglistsList';
 
 /*
 const Div = styled.div`
@@ -41,6 +42,9 @@ const Div = styled.div`
 const styles = theme => ({
   root: {
     padding: theme.spacing.unit * 4,
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+    },
   },
   progress: {
     margin: theme.spacing.unit * 2,
@@ -57,7 +61,7 @@ class Dashboard extends PureComponent {
 
   render() {
     const { classes, system, lists } = this.props;
-    const { competitorsList } = lists;
+    const { competitorsList, shoppinglistsList } = lists;
 
     if (system.loading) {
       return (
@@ -72,6 +76,7 @@ class Dashboard extends PureComponent {
     return (
       <Div className={classes.root}>
         <CompetitorsList competitorsList={competitorsList} />
+        <ShoppinglistsList shoppinglistsList={shoppinglistsList}/>
       </Div>
     );
   }
