@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import {
   Search,
-  AddCircleOutline,
   ArrowBack,
   ArrowForward,
 } from '@material-ui/icons';
@@ -40,6 +39,13 @@ const styles = theme => ({
   content: {
     flexDirection: 'column',
     paddingBottom: 0,
+  },
+  scrollMenuArrow: {
+    cursor: 'pointer',
+    margin: 0,
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
 });
 
@@ -111,6 +117,7 @@ const CompetitorsList = ({
       <ScrollMenu
         data={data}
         transition={0.3}
+        arrowClass={classes.scrollMenuArrow}
         arrowLeft={<ArrowBack fontSize="large" />}
         arrowRight={<ArrowForward fontSize="large" />}
         onSelect={null}

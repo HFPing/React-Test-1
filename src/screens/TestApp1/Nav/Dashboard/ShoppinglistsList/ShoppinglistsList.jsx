@@ -25,6 +25,13 @@ const styles = theme => ({
   content: {
     flexDirection: 'column',
   },
+  scrollMenuArrow: {
+    cursor: 'pointer',
+    margin: 0,
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
+  },
 });
 
 const ListComponent = (list, classes) => list.map(el => (
@@ -73,6 +80,7 @@ const ShoppinglistsList = ({
       <ScrollMenu
         data={data}
         transition={0.3}
+        arrowClass={classes.scrollMenuArrow}
         arrowLeft={<ArrowBack fontSize="large" />}
         arrowRight={<ArrowForward fontSize="large" />}
         onSelect={null}
