@@ -19,7 +19,7 @@ const dashboardMiddleware = ({ getState, dispatch }) => next => action => {
       initDashboardData()
         .then(res => {
           dispatch(ACTIONS.setCompetitorsList(res.competitorsList));
-          dispatch(ACTIONS.setShoppinglistsList(res.competitorsList));
+          dispatch(ACTIONS.setShoppinglistsList(res.shoppinglistsList));
           dispatch(ACTIONS.setDownloadDone(TYPES.LISTS_DOWNLOADED));
         });
       break;
