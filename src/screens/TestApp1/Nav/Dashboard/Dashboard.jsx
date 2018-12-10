@@ -45,7 +45,7 @@ const styles = theme => ({
   root: {
     padding: theme.spacing.unit * 4,
     [theme.breakpoints.down('xs')]: {
-      padding: 0,
+      padding: theme.spacing.unit * 2,
     },
   },
   progress: {
