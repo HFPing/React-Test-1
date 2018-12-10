@@ -1,0 +1,20 @@
+.wrap-text {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.list {
+  /* background-color: #fff; */
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-menu-arrow {
+  margin: 20px;
+  cursor: pointer;
+}

@@ -1,94 +1,79 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { withStyles } from '@material-ui/core/styles';
 import {
-  List,
   Typography,
   Card,
-  CardMedia,
   CardContent,
   CardActions,
-  IconButton,
   Button,
 } from '@material-ui/core';
-import { Search, AddCircleOutline } from '@material-ui/icons';
+import {
+  ArrowBack,
+  ArrowForward,
+} from '@material-ui/icons';
+
+import './ShoppinglistsList.css';
 
 const styles = theme => ({
   cardContent: {
-    minWidth: 250,
-    width: 250,
-    minHeight: 250,
-    height: 250,
-    marginRight: theme.spacing.unit * 4,
+    minWidth: 150,
+    maxWidth: 300,
+    margin: theme.spacing.unit * 4,
   },
-  media: {
-    height: 150,
-    paddingTop: '56.25%', // 16:9
-  },
-  mediaNew: {
-    height: 150,
-    backgroundColor: '#EBEBEB',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  actions: {
-    height: '50%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'space-between',
+  content: {
+    flexDirection: 'column',
   },
 });
 
-const AddNewCard = ({ classes }) => (
-  <Card className={classes.cardContent}>
-    <Typography variant="h2" className={classes.mediaNew}>
-      <AddCircleOutline fontSize="inherit" />
-    </Typography>
-    <CardContent>
-      <Typography gutterBottom variant="h4">
-        {' '}
+const ListComponent = (list, classes) => list.map(el => (
+  <Card className={classes.cardContent} key={el.listName}>
+    <CardContent className={classes.content}>
+      <Typography component="h5" variant="h5" className="wrap-text">
+        {el.listName}
+      </Typography>
+      <Typography variant="caption">
+        Number of items:
+        {el.items.length}
+      </Typography>
+      <Typography variant="body1" className="wrap-text">
+        Some description or note to indicate what this list is about
       </Typography>
     </CardContent>
     <CardActions>
       <Button size="small" color="primary">
-        <b>Add New</b>
+        More Info
       </Button>
     </CardActions>
   </Card>
-);
+));
 
-const ShoppinglistsList = ({ competitorsList, classes }) => (
-  <div>
-    <Typography variant="h5" color="inherit">
-      My Competitors
-    </Typography>
-    <List className="list">
-      {competitorsList.map(comp => (
-        <Card className={classes.cardContent} key={comp.compName}>
-          <CardMedia
-            className={classes.media}
-            image={`https://picsum.photos/480/640?image=${Math.floor(Math.random() * 200)}`}
-            title="Paella dish"
-          />
-          <CardContent className={classes.actions}>
-            <Typography gutterBottom variant="h6">
-              {comp.compName}
-            </Typography>
-            <IconButton aria-label="Search">
-              <Search />
-            </IconButton>
-          </CardContent>
-        </Card>
-      ))}
-      <AddNewCard classes={classes} />
-    </List>
-  </div>
-);
+const ShoppinglistsList = ({ shoppinglistsList, classes }) => {
+  const data = ListComponent(shoppinglistsList, classes);
+  return (
+    <div>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <Typography variant="h5" color="inherit">
+          My Shopping Lists
+        </Typography>
+        <Button color="primary" variant="contained" style={{ marginLeft: 16 }}>
+          + Create New
+        </Button>
+      </div>
+      <ScrollMenu
+        data={data}
+        transition={0.3}
+        arrowLeft={<ArrowBack fontSize="large" />}
+        arrowRight={<ArrowForward fontSize="large" />}
+        onSelect={null}
+      />
+    </div>
+  );
+};
 
 ShoppinglistsList.propTypes = {
-  competitorsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  shoppinglistsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   classes: PropTypes.shape({}).isRequired,
 };
 
