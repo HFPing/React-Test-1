@@ -86,7 +86,11 @@ const ListComponent = (list, classes) => list.map(comp => (
   </Card>
 ));
 
-const CompetitorsList = ({ competitorsList, classes }) => {
+const CompetitorsList = ({
+  competitorsList,
+  classes,
+  newCompModalHandler,
+}) => {
   const data = ListComponent(competitorsList, classes);
   // data.push(AddNewCard(classes, 'New'));
   return (
@@ -95,7 +99,12 @@ const CompetitorsList = ({ competitorsList, classes }) => {
         <Typography variant="h5" color="inherit">
           My Competitors
         </Typography>
-        <Button color="primary" variant="contained" style={{ marginLeft: 16 }}>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{ marginLeft: 16 }}
+          onClick={newCompModalHandler}
+        >
           + Add New
         </Button>
       </div>
@@ -113,6 +122,7 @@ const CompetitorsList = ({ competitorsList, classes }) => {
 CompetitorsList.propTypes = {
   competitorsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   classes: PropTypes.shape({}).isRequired,
+  newCompModalHandler: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(CompetitorsList);
