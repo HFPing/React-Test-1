@@ -12,6 +12,8 @@ import { ACTIONS, TYPES } from '../../../../redux/actions';
 
 import CompetitorsList from './CompetitorsList/CompetitorsList';
 import ShoppinglistsList from './ShoppinglistsList/ShoppinglistsList';
+import NewCompetitorModal from '../Modals/NewCompetitorModal';
+import NewShoppinglistModal from '../Modals/NewShoppinglistModal';
 
 /*
 const Div = styled.div`
@@ -52,6 +54,11 @@ const styles = theme => ({
 });
 
 class Dashboard extends PureComponent {
+  state = {
+    newCompOpen: false,
+    newShopLstOpen: false,
+  };
+
   componentDidMount() {
     const { dispatch, system } = this.props;
     if (!system[TYPES.LISTS_DOWNLOADED]) {
@@ -59,7 +66,14 @@ class Dashboard extends PureComponent {
     }
   }
 
+  newCompetitorModalHander =
+    (open) => () => this.setState({ newCompOpen: open });
+
+  newShoppinglistModalHander =
+    (open) => () => this.setState({ newShopLstOpen: open });
+
   render() {
+    const { newCompOpen, newShopLstOpen } = this.state;
     const { classes, system, lists } = this.props;
     const { competitorsList, shoppinglistsList } = lists;
 
@@ -75,8 +89,22 @@ class Dashboard extends PureComponent {
     }
     return (
       <Div className={classes.root}>
-        <CompetitorsList competitorsList={competitorsList} />
-        <ShoppinglistsList shoppinglistsList={shoppinglistsList}/>
+        <CompetitorsList
+          competitorsList={competitorsList}
+          newCompModalHandler={this.newCompetitorModalHander(true)}
+        />
+        <ShoppinglistsList
+          shoppinglistsList={shoppinglistsList}
+          newShopLstHandler={this.newShoppinglistModalHander(true)}
+        />
+        <NewCompetitorModal
+          open={newCompOpen}
+          onClose={this.newCompetitorModalHander(false)}
+        />
+        <NewShoppinglistModal
+          open={newShopLstOpen}
+          onClose={this.newShoppinglistModalHander(false)}
+        />
       </Div>
     );
   }
