@@ -49,7 +49,11 @@ const ListComponent = (list, classes) => list.map(el => (
   </Card>
 ));
 
-const ShoppinglistsList = ({ shoppinglistsList, classes }) => {
+const ShoppinglistsList = ({
+  shoppinglistsList,
+  classes,
+  newShopLstHandler,
+}) => {
   const data = ListComponent(shoppinglistsList, classes);
   return (
     <div>
@@ -57,7 +61,12 @@ const ShoppinglistsList = ({ shoppinglistsList, classes }) => {
         <Typography variant="h5" color="inherit">
           My Shopping Lists
         </Typography>
-        <Button color="primary" variant="contained" style={{ marginLeft: 16 }}>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{ marginLeft: 16 }}
+          onClick={newShopLstHandler}
+        >
           + Create New
         </Button>
       </div>
@@ -75,6 +84,7 @@ const ShoppinglistsList = ({ shoppinglistsList, classes }) => {
 ShoppinglistsList.propTypes = {
   shoppinglistsList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   classes: PropTypes.shape({}).isRequired,
+  newShopLstHandler: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ShoppinglistsList);
