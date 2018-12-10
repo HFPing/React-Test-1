@@ -16,6 +16,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-horizontal-scrolling-menu": "^0.3.9",
     "react-icons-kit": "^1.2.1",
     "react-redux": "^5.1.1",
     "react-router": "^4.3.1",
