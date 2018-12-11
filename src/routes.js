@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Home from './screens/Home/Home';
 import Plots from './screens/Plots/Plots';
 import TestApp1 from './screens/TestApp1/TestApp1';
@@ -7,11 +5,7 @@ import Dashboard from './screens/TestApp1/Nav/Dashboard/Dashboard';
 import TextPage from './screens/TestApp1/Nav/TextPage/TextPage';
 import MyShoppingLists from './screens/TestApp1/Nav/MyShoppingLists/MyShoppingLists';
 
-const ErrorScreen = () => (
-  <div>
-    <p>Path does not exist</p>
-  </div>
-);
+import RouteNotFound from './components/RouteNotFound';
 
 export const PATHS = {
   HOME: '/',
@@ -50,13 +44,13 @@ const routes = [
       },
       {
         path: '/*',
-        component: ErrorScreen,
+        component: RouteNotFound,
       },
     ],
   },
   {
     path: '/*',
-    component: ErrorScreen,
+    component: RouteNotFound,
   },
 ];
 
