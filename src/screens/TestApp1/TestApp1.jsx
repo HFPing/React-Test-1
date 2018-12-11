@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import { Switch } from 'react-router-dom';
@@ -8,13 +9,22 @@ import {
   Typography,
   IconButton,
   Fab,
+  Button,
+  Menu,
+  MenuItem,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import {
+  Menu as MenuIcon,
+  ArrowDropDown,
+} from '@material-ui/icons';
 import { Icon } from 'react-icons-kit';
 import { u1F6A7 } from 'react-icons-kit/noto_emoji_regular/u1F6A7';
 
 import { Drawer, RouteWithSubRoutes, ResponsiveDrawer } from '../../components';
 import { DRAWER_WIDTH } from '../../components/ResponsiveDrawer';
+
+import { PATHS } from '../../routes';
+import { TYPES } from '../../redux/actions';
 
 const logo = require('../../assets/TestApp1/logo.png');
 const profile = require('../../assets/TestApp1/profile.jpg');
@@ -23,6 +33,7 @@ const Div = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #EEE;
 `;
 
 const styles = theme => ({
@@ -91,7 +102,19 @@ class TestApp1 extends PureComponent {
     this.state = {
       drawerOpen: false,
       mobileOpen: false,
+      shoppinglistsMenuIndex: 0,
+      shoppinglistsMenuAnchor: null,
     };
+  }
+
+  componentDidMount() {
+    const { system } = this.props;
+    if (!system[TYPES.LISTS_DOWNLOADED]) this.navigateToDashboard();
+  }
+
+  navigateToDashboard = () => {
+    const { history } = this.props;
+    history.push(PATHS.TEST_APP_1_HOME);
   }
 
   handleDrawerToggle =
@@ -100,7 +123,24 @@ class TestApp1 extends PureComponent {
   handleMobileDrawerToggle =
     () => this.setState({ mobileOpen: !this.state.mobileOpen });
 
-  renderHeader = ({ classes }) => (
+  handleShoppinglistsMenuOpen =
+    (event) => this.setState({ shoppinglistsMenuAnchor: event.currentTarget });
+
+  handleShoppinglistsMenuClose =
+    () => this.setState({ shoppinglistsMenuAnchor: null });
+
+  handleShoppinglistsMenuSelect =
+    (index) => () => this.setState({
+      shoppinglistsMenuIndex: index,
+      shoppinglistsMenuAnchor: null,
+    });
+
+  renderHeader = ({
+    classes,
+    user,
+    renderShopListMenu,
+    currentListName,
+  }) => (
     <div>
       <AppBar position="static">
         <Toolbar>
@@ -119,22 +159,55 @@ class TestApp1 extends PureComponent {
           <div className={classes.profileSection}>
             <img src={profile} className={classes.profilePic} alt="Nada" />
             <Typography variant="subtitle1" color="inherit">
-              <b>John Cena</b>
-              / Store 1212
+              <b>{user.name}</b>
+              {` / ${user.storeNbr}`}
             </Typography>
           </div>
         </Toolbar>
       </AppBar>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar />
+        {
+          renderShopListMenu
+            ? (
+              <Toolbar>
+                <Button
+                  aria-haspopup="true"
+                  onClick={this.handleShoppinglistsMenuOpen}
+                >
+                  <Typography variant="h6">
+                    {currentListName}
+                  </Typography>
+                  <ArrowDropDown />
+                </Button>
+              </Toolbar>
+            ) : (
+              <Toolbar />
+            )
+        }
       </AppBar>
     </div>
   );
 
   render() {
-    const { drawerOpen, mobileOpen } = this.state;
-    const { classes, routes } = this.props;
+    const {
+      drawerOpen,
+      mobileOpen,
+      shoppinglistsMenuAnchor,
+      shoppinglistsMenuIndex,
+    } = this.state;
+    const {
+      classes,
+      routes,
+      system,
+      location,
+      lists,
+    } = this.props;
+    const renderShopListMenu = system[TYPES.LISTS_DOWNLOADED]
+    && location.pathname === PATHS.TEST_APP_1_SHOPPING_LISTS;
     const Header = this.renderHeader;
+    const { shoppinglistsList } = lists;
+    const currentListName = shoppinglistsList.length > 0
+      ? shoppinglistsList[shoppinglistsMenuIndex].listName : '';
 
     const userObj = {
       name: 'John Cena',
@@ -143,7 +216,12 @@ class TestApp1 extends PureComponent {
 
     return (
       <Div>
-        <Header classes={classes} user={userObj} />
+        <Header
+          classes={classes}
+          user={userObj}
+          renderShopListMenu={renderShopListMenu}
+          currentListName={currentListName}
+        />
         <div className={classes.content}>
           <Switch>
             {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
@@ -167,9 +245,30 @@ class TestApp1 extends PureComponent {
           onClose={this.handleDrawerToggle}
           anchor="left"
         />
+        <Menu
+          id="simple-menu"
+          anchorEl={shoppinglistsMenuAnchor}
+          open={Boolean(shoppinglistsMenuAnchor)}
+          onClose={this.handleShoppinglistsMenuClose}
+        >
+          {shoppinglistsList.map((option, index) => (
+            <MenuItem
+              key={option.listName}
+              selected={index === shoppinglistsMenuIndex}
+              onClick={this.handleShoppinglistsMenuSelect(index)}
+            >
+              {option.listName}
+            </MenuItem>
+          ))}
+        </Menu>
       </Div>
     );
   }
 }
 
-export default withStyles(styles)(TestApp1);
+const mapStateToProps = (state) => {
+  const { system, lists } = state;
+  return { system, lists };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(TestApp1));
