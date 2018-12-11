@@ -15,30 +15,16 @@ import ShoppinglistsList from './ShoppinglistsList/ShoppinglistsList';
 import NewCompetitorModal from '../Modals/NewCompetitorModal';
 import NewShoppinglistModal from '../Modals/NewShoppinglistModal';
 
-/*
-const Div = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-*/
-
 const DivCent = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #EEE;
 `;
 
 const Div = styled.div`
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #EEE;
 `;
 
 const styles = theme => ({
@@ -61,9 +47,7 @@ class Dashboard extends PureComponent {
 
   componentDidMount() {
     const { dispatch, system } = this.props;
-    if (!system[TYPES.LISTS_DOWNLOADED]) {
-      dispatch(ACTIONS.initDashboard());
-    }
+    if (!system[TYPES.LISTS_DOWNLOADED]) dispatch(ACTIONS.initDashboard());
   }
 
   newCompetitorModalHander =
