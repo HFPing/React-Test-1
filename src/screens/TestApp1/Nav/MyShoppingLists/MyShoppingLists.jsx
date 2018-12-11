@@ -5,17 +5,23 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  IconButton,
+  Button,
 } from '@material-ui/core';
 
 const Div = styled.div`
   height: 100%;
   display: flex;
-  flex-direction: column;
 `;
 
 const styles = theme => ({
-  root: {
-    backgroundColor: 'red',
+  card: {
+    width: '100%',
+    margin: theme.spacing.unit * 3,
   },
 });
 
@@ -25,9 +31,13 @@ class MyShoppingLists extends PureComponent {
 
     return (
       <Div>
-        <Typography paragraph>
-          My Shopping Lists
-        </Typography>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              Word of the Day
+            </Typography>
+          </CardContent>
+        </Card>
       </Div>
     );
   }
