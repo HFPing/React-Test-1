@@ -20,6 +20,7 @@ import {
   Language,
   ExitToApp,
   Description,
+  ShoppingCart,
 } from '@material-ui/icons';
 
 import { PATHS } from '../routes';
@@ -58,6 +59,14 @@ class ResponsiveDrawer extends PureComponent {
         >
           <ListItemIcon><Dashboard /></ListItemIcon>
           <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem
+          button
+          selected={this.activeRoute(PATHS.TEST_APP_1_SHOPPING_LISTS)}
+          onClick={this.navigateToScreen(PATHS.TEST_APP_1_SHOPPING_LISTS, mobile)}
+        >
+          <ListItemIcon><ShoppingCart /></ListItemIcon>
+          <ListItemText primary="My Shopping Lists" />
         </ListItem>
         <ListItem
           button

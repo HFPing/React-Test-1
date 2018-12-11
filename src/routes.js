@@ -5,18 +5,20 @@ import Plots from './screens/Plots/Plots';
 import TestApp1 from './screens/TestApp1/TestApp1';
 import Dashboard from './screens/TestApp1/Nav/Dashboard/Dashboard';
 import TextPage from './screens/TestApp1/Nav/TextPage/TextPage';
+import MyShoppingLists from './screens/TestApp1/Nav/MyShoppingLists/MyShoppingLists';
 
 const ErrorScreen = () => (
   <div>
     <p>Path does not exist</p>
   </div>
-)
+);
 
 export const PATHS = {
   HOME: '/',
   PLOTS: '/plots',
   TEST_APP_1_HOME: '/testApp',
-  TEST_APP_1_TEXT: '/testApp/textDemo'
+  TEST_APP_1_SHOPPING_LISTS: '/testApp/shoppingLists',
+  TEST_APP_1_TEXT: '/testApp/textDemo',
 };
 
 const routes = [
@@ -27,7 +29,7 @@ const routes = [
   },
   {
     path: PATHS.PLOTS,
-    component: Plots
+    component: Plots,
   },
   {
     path: PATHS.TEST_APP_1_HOME,
@@ -40,17 +42,21 @@ const routes = [
       },
       {
         path: PATHS.TEST_APP_1_TEXT,
-        component: TextPage
+        component: TextPage,
       },
       {
-        path: "/*",
-        component: ErrorScreen
+        path: PATHS.TEST_APP_1_SHOPPING_LISTS,
+        component: MyShoppingLists,
       },
-    ]
+      {
+        path: '/*',
+        component: ErrorScreen,
+      },
+    ],
   },
   {
-    path: "/*",
-    component: ErrorScreen
+    path: '/*',
+    component: ErrorScreen,
   },
 ];
 
