@@ -9,6 +9,7 @@
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
     "chroma-js": "^1.4.0",
+    "classnames": "^2.2.6",
     "d3": "^5.7.0",
     "gh-pages": "^2.0.1",
     "html2canvas": "^1.0.0-alpha.12",
