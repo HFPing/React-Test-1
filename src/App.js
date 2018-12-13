@@ -13,22 +13,18 @@ import routes from './routes';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: blue[300],
-      main: '#027ACD',
-      dark: blue[700],
+      light: '#78B9E7',
+      main: '#017ACD',
+      dark: '#004C91',
     },
     secondary: {
-      light: green[300],
-      main: '#FCC201',
-      dark: green[700],
+      light: '#FFD35D',
+      main: '#FFC220',
+      dark: '#C38E00',
     },
-    text: {
-      secondary: 'white',
-    },
+    text: { secondary: 'white' },
   },
-  typography: {
-    useNextVariants: true,
-  },
+  typography: { useNextVariants: true },
   shape: { borderRadius: 4 },
 });
 
