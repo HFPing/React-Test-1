@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import {
   withStyles,
   TableCell,
@@ -76,6 +77,21 @@ const styles = theme => ({
     color: theme.palette.text.primary,
     fontSize: 'inherit',
     flexShrink: 0,
+  },
+  evenCell: {
+    backgroundColor: theme.palette.grey[200],
+    '&:hover': {
+      backgroundColor: fade(theme.palette.secondary.main, 0.25),
+    },
+  },
+  oddCell: {
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: fade(theme.palette.secondary.main, 0.25),
+    },
+  },
+  selectedCell: {
+    backgroundColor: fade(theme.palette.primary.main, 0.5),
   },
 });
 
@@ -186,21 +202,26 @@ class MyShoppingLists extends PureComponent {
               <TableBody>
                 {stableSort(data, getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map(n => {
+                  .map((n, idx) => {
                     const isSelected = this.isSelected(n.id);
+                    const cellStyle = isSelected
+                      ? { root: classes.selectedCell }
+                      : idx % 2
+                        ? { root: classes.evenCell }
+                        : { root: classes.oddCell };
                     return (
                       <TableRow
-                        hover
-                        onClick={event => this.handleClick(event, n.id)}
+                        classes={cellStyle}
+                        // onClick={event => this.handleClick(event, n.id)}
                         role="checkbox"
                         aria-checked={isSelected}
                         tabIndex={-1}
                         key={n.id}
-                        selected={isSelected}
                       >
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={isSelected}
+                            onChange={event => this.handleClick(event, n.id)}
                             color="primary"
                             icon={<CheckBoxOutlineBlankOutlined color="disabled" />}
                           />

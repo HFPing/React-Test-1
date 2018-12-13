@@ -20,18 +20,12 @@ import {
 
 const toolbarStyles = theme => ({
   root: {
-    paddingRight: theme.spacing.unit,
+    padding: theme.spacing.unit * 4,
   },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
-      : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+  highlight: {
+    color: theme.palette.primary.main,
+    backgroundColor: lighten(theme.palette.primary.light, 0.85),
+  },
   spacer: {
     flex: '1 1 100%',
   },
@@ -43,13 +37,15 @@ const toolbarStyles = theme => ({
   },
   search: {
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.grey[400], 0.15),
+    borderRadius: theme.shape.borderRadius * 6,
+    backgroundColor: 'white',
     '&:hover': {
       backgroundColor: fade(theme.palette.grey[400], 0.25),
     },
-    marginLeft: 0,
-    marginRight: theme.spacing.unit * 10,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: theme.palette.grey[400],
+    marginRight: theme.spacing.unit * 4,
     width: '100%',
   },
   searchIcon: {
@@ -70,12 +66,10 @@ const toolbarStyles = theme => ({
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingLeft: theme.spacing.unit * 8,
     transition: theme.transitions.create('width'),
     width: 120,
-    '&:focus': {
-      width: 200,
-    },
+    '&:focus': { width: 200 },
   },
 });
 
@@ -110,7 +104,7 @@ const EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
-              <Delete />
+              <Delete color="error" />
             </IconButton>
           </Tooltip>
         ) : (
