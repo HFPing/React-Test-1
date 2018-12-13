@@ -2,16 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import { lighten } from '@material-ui/core/styles/colorManipulator';
+import { lighten, fade } from '@material-ui/core/styles/colorManipulator';
 import {
   IconButton,
   Toolbar,
   Typography,
   Tooltip,
   Button,
+  InputBase,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import {
+  Delete,
+  FilterList,
+  Search,
+  MoreVert,
+} from '@material-ui/icons';
 
 const toolbarStyles = theme => ({
   root: {
@@ -35,6 +40,42 @@ const toolbarStyles = theme => ({
   },
   title: {
     flex: '0 0 auto',
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.grey[400], 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.grey[400], 0.25),
+    },
+    marginLeft: 0,
+    marginRight: theme.spacing.unit * 10,
+    width: '100%',
+  },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'action',
+    width: '100%',
+    height: '100%',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: 120,
+    '&:focus': {
+      width: 200,
+    },
   },
 });
 
@@ -69,15 +110,36 @@ const EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
-              <DeleteIcon />
+              <Delete />
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Tooltip title="Search Item">
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <Search color="action" />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                />
+              </div>
+            </Tooltip>
+            <Tooltip title="Filter list">
+              <IconButton aria-label="Filter list">
+                <FilterList />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="More">
+              <IconButton aria-label="Filter list">
+                <MoreVert />
+              </IconButton>
+            </Tooltip>
+          </div>
         )}
       </div>
     </Toolbar>
