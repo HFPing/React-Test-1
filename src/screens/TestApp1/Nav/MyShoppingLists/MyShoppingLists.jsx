@@ -7,10 +7,18 @@ import {
   Paper,
   AppBar,
   Toolbar,
+  Menu,
+  MenuItem,
+  Button,
+  Typography,
 } from '@material-ui/core';
+import {
+  ArrowDropDown,
+} from '@material-ui/icons';
 
 import { DRAWER_WIDTH } from '../../../../components/ResponsiveDrawer';
 import EnhancedTable from './Table/EnhancedTable';
+import { TYPES } from '../../../../redux/actions';
 
 const createData = (id, label, numeric = true, disablePadding = false) => ({
   id,
@@ -45,13 +53,16 @@ const data = [
 ];
 
 const Div = styled.div`
-  height: 100%;
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
 `;
 
 const styles = theme => ({
+  root: {
+    marginTop: theme.mixins.toolbar.minHeight + theme.spacing.unit,
+  },
   paper: {
     width: '100%',
     margin: theme.spacing.unit * 3,
@@ -60,7 +71,7 @@ const styles = theme => ({
     marginTop: theme.mixins.toolbar.minHeight + theme.spacing.unit,
     marginLeft: DRAWER_WIDTH,
     width: `calc(100% - ${DRAWER_WIDTH}px)`,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFFFFFAA',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#A0A0A0',
@@ -72,20 +83,71 @@ const styles = theme => ({
 
 class MyShoppingLists extends PureComponent {
   state = {
-    selectedList: 0,
+    shoppinglistsMenuIndex: 0,
+    shoppinglistsMenuAnchor: null,
   };
 
+  handleShoppinglistsMenuOpen =
+    (event) => this.setState({ shoppinglistsMenuAnchor: event.currentTarget });
+
+  handleShoppinglistsMenuClose =
+    () => this.setState({ shoppinglistsMenuAnchor: null });
+
+  handleShoppinglistsMenuSelect =
+    (index) => () => this.setState({
+      shoppinglistsMenuIndex: index,
+      shoppinglistsMenuAnchor: null,
+    });
+
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      system,
+      lists: { shoppinglistsList },
+    } = this.props;
+    const {
+      shoppinglistsMenuAnchor,
+      shoppinglistsMenuIndex,
+    } = this.state;
+
+    const renderShopListMenu = system[TYPES.LISTS_DOWNLOADED];
+    const currentListName = shoppinglistsList.length > 0
+      ? shoppinglistsList[shoppinglistsMenuIndex].listName : '';
 
     return (
-      <Div>
+      <Div className={classes.root}>
         <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar />
+          <Toolbar>
+            <Button
+              aria-haspopup="true"
+              onClick={this.handleShoppinglistsMenuOpen}
+            >
+              <Typography variant="h6">
+                {currentListName}
+              </Typography>
+              <ArrowDropDown />
+            </Button>
+          </Toolbar>
         </AppBar>
         <Paper className={classes.paper}>
           <EnhancedTable rowStructure={rowStructure} data={data} />
         </Paper>
+        <Menu
+          id="simple-menu"
+          anchorEl={shoppinglistsMenuAnchor}
+          open={Boolean(shoppinglistsMenuAnchor)}
+          onClose={this.handleShoppinglistsMenuClose}
+        >
+          {shoppinglistsList.map((option, index) => (
+            <MenuItem
+              key={option.listName}
+              selected={index === shoppinglistsMenuIndex}
+              onClick={this.handleShoppinglistsMenuSelect(index)}
+            >
+              {option.listName}
+            </MenuItem>
+          ))}
+        </Menu>
       </Div>
     );
   }
@@ -93,6 +155,8 @@ class MyShoppingLists extends PureComponent {
 
 MyShoppingLists.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  system: PropTypes.shape({}).isRequired,
+  lists: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = (state) => {

@@ -9,13 +9,9 @@ import {
   Typography,
   IconButton,
   Fab,
-  Button,
-  Menu,
-  MenuItem,
 } from '@material-ui/core';
 import {
   Menu as MenuIcon,
-  ArrowDropDown,
 } from '@material-ui/icons';
 import { Icon } from 'react-icons-kit';
 import { u1F6A7 } from 'react-icons-kit/noto_emoji_regular/u1F6A7';
@@ -76,7 +72,7 @@ const styles = theme => ({
     right: theme.spacing.unit * 2,
   },
   content: {
-    marginTop: (theme.mixins.toolbar.minHeight + theme.spacing.unit) * 2,
+    marginTop: theme.mixins.toolbar.minHeight + theme.spacing.unit,
     flex: 1,
     marginLeft: DRAWER_WIDTH,
     [theme.breakpoints.down('xs')]: {
@@ -92,8 +88,6 @@ class TestApp1 extends PureComponent {
     this.state = {
       drawerOpen: false,
       mobileOpen: false,
-      shoppinglistsMenuIndex: 0,
-      shoppinglistsMenuAnchor: null,
     };
   }
 
@@ -108,28 +102,14 @@ class TestApp1 extends PureComponent {
   }
 
   handleDrawerToggle =
-    () => this.setState({ drawerOpen: !this.state.drawerOpen });
+    () => this.setState(state => ({ drawerOpen: !state.drawerOpen }));
 
   handleMobileDrawerToggle =
-    () => this.setState({ mobileOpen: !this.state.mobileOpen });
-
-  handleShoppinglistsMenuOpen =
-    (event) => this.setState({ shoppinglistsMenuAnchor: event.currentTarget });
-
-  handleShoppinglistsMenuClose =
-    () => this.setState({ shoppinglistsMenuAnchor: null });
-
-  handleShoppinglistsMenuSelect =
-    (index) => () => this.setState({
-      shoppinglistsMenuIndex: index,
-      shoppinglistsMenuAnchor: null,
-    });
+    () => this.setState(state => ({ mobileOpen: !state.mobileOpen }));
 
   renderHeader = ({
     classes,
     user,
-    renderShopListMenu,
-    currentListName,
   }) => (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
@@ -160,22 +140,12 @@ class TestApp1 extends PureComponent {
     const {
       drawerOpen,
       mobileOpen,
-      shoppinglistsMenuAnchor,
-      shoppinglistsMenuIndex,
     } = this.state;
     const {
       classes,
       routes,
-      system,
-      location,
-      lists,
     } = this.props;
-    const renderShopListMenu = system[TYPES.LISTS_DOWNLOADED]
-    && location.pathname === PATHS.TEST_APP_1_SHOPPING_LISTS;
     const Header = this.renderHeader;
-    const { shoppinglistsList } = lists;
-    const currentListName = shoppinglistsList.length > 0
-      ? shoppinglistsList[shoppinglistsMenuIndex].listName : '';
 
     const userObj = {
       name: 'John Cena',
@@ -187,11 +157,10 @@ class TestApp1 extends PureComponent {
         <Header
           classes={classes}
           user={userObj}
-          renderShopListMenu={renderShopListMenu}
-          currentListName={currentListName}
         />
         <div className={classes.content}>
           <Switch>
+            {/* eslint-disable-next-line */}
             {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
           </Switch>
         </div>
@@ -206,22 +175,6 @@ class TestApp1 extends PureComponent {
           onClose={this.handleDrawerToggle}
           anchor="left"
         />
-        <Menu
-          id="simple-menu"
-          anchorEl={shoppinglistsMenuAnchor}
-          open={Boolean(shoppinglistsMenuAnchor)}
-          onClose={this.handleShoppinglistsMenuClose}
-        >
-          {shoppinglistsList.map((option, index) => (
-            <MenuItem
-              key={option.listName}
-              selected={index === shoppinglistsMenuIndex}
-              onClick={this.handleShoppinglistsMenuSelect(index)}
-            >
-              {option.listName}
-            </MenuItem>
-          ))}
-        </Menu>
         <Fab
           color="primary"
           className={classes.fab}
