@@ -13,18 +13,15 @@ import {
   CheckBoxOutlineBlankOutlined,
 } from '@material-ui/icons';
 
-const rows = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
-];
-
 const createSortHandler = (property, onRequestSort) => event => {
   onRequestSort(event, property);
 };
 
+/**
+ * Table Header
+ * - Category orginizer
+ * - Category asc/dec filter
+ */
 const EnhancedTableHead = ({
   onSelectAllClick,
   order,
@@ -32,19 +29,20 @@ const EnhancedTableHead = ({
   numSelected,
   rowCount,
   onRequestSort,
+  rowStructure,
 }) => (
   <TableHead>
     <TableRow>
       <TableCell padding="checkbox">
         <Checkbox
           indeterminate={numSelected > 0 && numSelected < rowCount}
-          checked={numSelected === rowCount}
+          checked={numSelected === rowCount && rowCount > 0}
           onChange={onSelectAllClick}
           color="primary"
           icon={<CheckBoxOutlineBlankOutlined color="disabled" />}
         />
       </TableCell>
-      {rows.map(row => (
+      {rowStructure.map(row => (
         <TableCell
           key={row.id}
           align={row.numeric ? 'right' : 'left'}
@@ -79,6 +77,12 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
+  rowStructure: PropTypes.arrayOf({
+    id: PropTypes.string,
+    label: PropTypes.string,
+    numeric: PropTypes.bool,
+    disablePadding: PropTypes.bool,
+  }).isRequired,
 };
 
 export default EnhancedTableHead;
