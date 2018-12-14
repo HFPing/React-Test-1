@@ -33,12 +33,9 @@ const Div = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #EEE;
 `;
 
 const styles = theme => ({
-  root: {
-  },
   grow: {
     flexGrow: 1,
     fontFamily: 'Monoton',
@@ -51,17 +48,8 @@ const styles = theme => ({
     },
   },
   appBar: {
-    marginLeft: DRAWER_WIDTH,
-    backgroundColor: '#F5F5F5',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#A0A0A0',
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${DRAWER_WIDTH}px)`,
-    },
-    [theme.breakpoints.down('xs')]: {
-      display: 'none',
-    },
+    // backgroundColor: '#FFFFFFAA',
+    marginBottom: theme.mixins.toolbar.minHeight + theme.spacing.unit,
   },
   logo: {
     width: 50,
@@ -88,10 +76,12 @@ const styles = theme => ({
     right: theme.spacing.unit * 2,
   },
   content: {
+    marginTop: (theme.mixins.toolbar.minHeight + theme.spacing.unit) * 2,
     flex: 1,
     marginLeft: DRAWER_WIDTH,
     [theme.breakpoints.down('xs')]: {
       marginLeft: 0,
+      marginTop: theme.mixins.toolbar.minHeight,
     },
   },
 });
@@ -141,51 +131,29 @@ class TestApp1 extends PureComponent {
     renderShopListMenu,
     currentListName,
   }) => (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={this.handleMobileDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <img src={logo} className={classes.logo} alt="Nada" />
-          <Typography variant="h6" color="inherit" className={classes.grow}>
-            Shop App
+    <AppBar position="fixed" className={classes.appBar}>
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="Open drawer"
+          onClick={this.handleMobileDrawerToggle}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
+        <img src={logo} className={classes.logo} alt="Nada" />
+        <Typography variant="h6" color="inherit" className={classes.grow}>
+          Shop App
+        </Typography>
+        <div className={classes.profileSection}>
+          <img src={profile} className={classes.profilePic} alt="Nada" />
+          <Typography variant="subtitle1" color="inherit">
+            <b>{user.name}</b>
+            {` / ${user.storeNbr}`}
           </Typography>
-          <div className={classes.profileSection}>
-            <img src={profile} className={classes.profilePic} alt="Nada" />
-            <Typography variant="subtitle1" color="inherit">
-              <b>{user.name}</b>
-              {` / ${user.storeNbr}`}
-            </Typography>
-          </div>
-        </Toolbar>
-      </AppBar>
-      <AppBar position="static" className={classes.appBar}>
-        {
-          renderShopListMenu
-            ? (
-              <Toolbar>
-                <Button
-                  aria-haspopup="true"
-                  onClick={this.handleShoppinglistsMenuOpen}
-                >
-                  <Typography variant="h6">
-                    {currentListName}
-                  </Typography>
-                  <ArrowDropDown />
-                </Button>
-              </Toolbar>
-            ) : (
-              <Toolbar />
-            )
-        }
-      </AppBar>
-    </div>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 
   render() {
@@ -227,13 +195,6 @@ class TestApp1 extends PureComponent {
             {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
           </Switch>
         </div>
-        <Fab
-          color="primary"
-          className={classes.fab}
-          onClick={this.handleDrawerToggle}
-        >
-          <Icon icon={u1F6A7} size={32} />
-        </Fab>
         <ResponsiveDrawer
           user={userObj}
           open={mobileOpen}
@@ -261,6 +222,13 @@ class TestApp1 extends PureComponent {
             </MenuItem>
           ))}
         </Menu>
+        <Fab
+          color="primary"
+          className={classes.fab}
+          onClick={this.handleDrawerToggle}
+        >
+          <Icon icon={u1F6A7} size={32} />
+        </Fab>
       </Div>
     );
   }

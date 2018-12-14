@@ -41,7 +41,7 @@ class ResponsiveDrawer extends PureComponent {
 
   renderDrawerContent = ({ classes, mobile, user }) => (
     <div>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar />
       </AppBar>
       <div className={classes.profileSection}>
@@ -153,6 +153,9 @@ const styles = theme => ({
     },
   },
   appBar: {
+    left: 0,
+    width: DRAWER_WIDTH,
+    marginTop: theme.mixins.toolbar.minHeight + theme.spacing.unit,
     backgroundColor: '#F5F5F5',
     borderStyle: 'solid',
     borderWidth: 1,
@@ -163,7 +166,8 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: DRAWER_WIDTH,
-    marginTop: theme.mixins.toolbar.minHeight + theme.spacing.unit,
+    marginTop: (theme.mixins.toolbar.minHeight + theme.spacing.unit) * 2,
+    paddingBottom: (theme.mixins.toolbar.minHeight + theme.spacing.unit) * 2,
     [theme.breakpoints.down('xs')]: {
       marginTop: 0,
     },
