@@ -1,4 +1,5 @@
-.wrap-text {
-  white-space: normal;
-  word-wrap: break-word;
+.slider-class {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

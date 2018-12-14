@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ScrollMenu from 'react-horizontal-scrolling-menu';
+import Slider from 'react-slick';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Typography,
@@ -17,7 +17,28 @@ import {
   ArrowForward,
 } from '@material-ui/icons';
 
-import './CompetitorsList.css';
+import '../../../../../../node_modules/slick-carousel/slick/slick.css';
+import '../../../../../../node_modules/slick-carousel/slick/slick-theme.css';
+
+const NextArrow = ({ iconClass, onClick }) => (
+  <IconButton
+    aria-label="Search"
+    onClick={onClick}
+    style={{ marginLeft: 10 }}
+  >
+    <ArrowForward color="action" className={iconClass} />
+  </IconButton>
+);
+
+const PrevArrow = ({ iconClass, onClick }) => (
+  <IconButton
+    aria-label="Search"
+    onClick={onClick}
+    style={{ marginRight: 10 }}
+  >
+    <ArrowBack color="action" className={iconClass} />
+  </IconButton>
+);
 
 const styles = theme => ({
   media: {
@@ -32,7 +53,7 @@ const styles = theme => ({
   },
   cardContent: {
     minWidth: 250,
-    width: 250,
+    maxWidth: 250,
     minHeight: 250,
     margin: theme.spacing.unit * 4,
   },
@@ -47,58 +68,30 @@ const styles = theme => ({
       display: 'none',
     },
   },
+  iconStyle: {
+    '&:hover': {
+      color: theme.palette.secondary.main,
+    },
+  },
 });
-
-/*
-const AddNewCard = (classes, key) => (
-  <Card className={classes.cardContent} key={key}>
-    <Typography variant="h2" className={classes.mediaNew}>
-      <AddCircleOutline fontSize="inherit" />
-    </Typography>
-    <CardContent>
-      <Typography gutterBottom variant="h4">
-        {' '}
-      </Typography>
-    </CardContent>
-    <CardActions>
-      <Button size="small" color="primary">
-        <b>Add New</b>
-      </Button>
-    </CardActions>
-  </Card>
-);
-*/
-
-const ListComponent = (list, classes) => list.map(comp => (
-  <Card className={classes.cardContent} key={comp.compName}>
-    <CardMedia
-      className={classes.media}
-      image={`https://picsum.photos/480/640?image=${Math.floor(Math.random() * 200)}`}
-      title="Paella dish"
-    />
-    <CardContent className={classes.content}>
-      <Typography component="h5" variant="h5" className="wrap-text">
-        {comp.compName}
-      </Typography>
-    </CardContent>
-    <CardActions>
-      <Button size="small" color="primary">
-        Edit Info
-      </Button>
-      <IconButton aria-label="Search">
-        <Search />
-      </IconButton>
-    </CardActions>
-  </Card>
-));
 
 const CompetitorsList = ({
   competitorsList,
   classes,
   newCompModalHandler,
 }) => {
-  const data = ListComponent(competitorsList, classes);
-  // data.push(AddNewCard(classes, 'New'));
+  const settings = {
+    className: 'slider-class',
+    infinite: true,
+    speed: 500,
+    focusOnSelect: true,
+    centerMode: true,
+    swipeToSlide: true,
+    variableWidth: true,
+    adaptiveHeight: true,
+    nextArrow: <NextArrow iconClass={classes.iconStyle} />,
+    prevArrow: <PrevArrow iconClass={classes.iconStyle} />,
+  };
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -114,14 +107,30 @@ const CompetitorsList = ({
           + Add New
         </Button>
       </div>
-      <ScrollMenu
-        data={data}
-        transition={0.3}
-        arrowClass={classes.scrollMenuArrow}
-        arrowLeft={<ArrowBack fontSize="large" />}
-        arrowRight={<ArrowForward fontSize="large" />}
-        onSelect={null}
-      />
+      <Slider {...settings}>
+        {competitorsList.map(comp => (
+          <Card className={classes.cardContent} key={comp.compName}>
+            <CardMedia
+              className={classes.media}
+              image={`https://picsum.photos/480/640?image=${Math.floor(Math.random() * 200)}`}
+              title="Paella dish"
+            />
+            <CardContent className={classes.content}>
+              <Typography component="h5" variant="h5" className="wrap-text">
+                {comp.compName}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Edit Info
+              </Button>
+              <IconButton aria-label="Search">
+                <Search />
+              </IconButton>
+            </CardActions>
+          </Card>
+        ))}
+      </Slider>
     </div>
   );
 };
