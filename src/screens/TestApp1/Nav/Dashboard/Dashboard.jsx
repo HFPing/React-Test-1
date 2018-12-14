@@ -19,6 +19,7 @@ import NewShoppinglistModal from '../Modals/NewShoppinglistModal';
 
 const styles = theme => ({
   root: {
+    marginTop: theme.mixins.toolbar.minHeight + theme.spacing.unit,
     padding: theme.spacing.unit * 5,
     [theme.breakpoints.down('xs')]: {
       paddingTop: theme.spacing.unit,
