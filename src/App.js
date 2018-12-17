@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { CssBaseline } from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { blue, green } from '@material-ui/core/colors';
 
 import { RouteWithSubRoutes } from './components';
 import configureStore from './redux/store';
