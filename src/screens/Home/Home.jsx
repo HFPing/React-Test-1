@@ -1,22 +1,28 @@
 import React, { PureComponent } from 'react';
-import { CssBaseline } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import {
+  CssBaseline,
   AppBar,
   Toolbar,
   Typography,
-  Button,
-  IconButton
+  Badge,
+  IconButton,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import {
+  Menu,
+  Search,
+  MoreVert,
+  MailSharp,
+  Notifications,
+  AccountCircle,
+} from '@material-ui/icons';
 
 import Drawer from '../../components/Drawer';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
+    flex: 1,
   },
   grow: {
     flexGrow: 1,
@@ -33,20 +39,38 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-};
+  main: {
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: theme.mixins.toolbar.minHeight + theme.spacing.unit,
+    overflow: true,
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: { display: 'flex' },
+  },
+});
 
 const BottomBar = ({ classes }) => (
-  <AppBar position="fixed" color="primary" className={classes.appBarBottom}>
+  <AppBar position="fixed" color="secondary" className={classes.appBarBottom}>
     <Toolbar className={classes.toolbar}>
-      <IconButton color="inherit" aria-label="Open drawer">
-        <MenuIcon />
-      </IconButton>
+      <Typography color="inherit" className={classes.title}>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://material-ui.com/"
+        >
+            Material-UI
+        </a>
+      </Typography>
       <div>
         <IconButton color="inherit">
-          <SearchIcon />
+          <Search />
         </IconButton>
         <IconButton color="inherit">
-          <MoreIcon />
+          <MoreVert />
         </IconButton>
       </div>
     </Toolbar>
@@ -58,10 +82,10 @@ class Home extends PureComponent {
     drawerOpen: false,
   };
 
-  handleDrawerToggle = () => this.setState({ drawerOpen: !this.state.drawerOpen });
+  handleDrawerToggle = () => this.setState(state => ({ drawerOpen: !state.drawerOpen }));
 
   renderHeader = ({ classes }) => (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar>
         <IconButton
           className={classes.menuButton}
@@ -69,12 +93,31 @@ class Home extends PureComponent {
           aria-label="Menu"
           onClick={this.handleDrawerToggle}
         >
-          <MenuIcon />
+          <Menu />
         </IconButton>
         <Typography variant="h6" color="inherit" className={classes.grow}>
           Home Screen
         </Typography>
-        <Button color="inherit">Login</Button>
+        <div className={classes.sectionDesktop}>
+          <IconButton color="inherit">
+            <Badge badgeContent={17} color="secondary">
+              <MailSharp />
+            </Badge>
+          </IconButton>
+          <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <Notifications />
+            </Badge>
+          </IconButton>
+          <IconButton
+            aria-owns="material-appbar"
+            aria-haspopup="true"
+            // onClick={this.handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </div>
       </Toolbar>
     </AppBar>
   );
@@ -88,12 +131,75 @@ class Home extends PureComponent {
       <div className={classes.root}>
         <CssBaseline />
         <Header classes={classes} />
+        <div className={classes.main}>
           Home Screen
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+          <div>prueba</div>
+        </div>
         <BottomBar classes={classes} />
         <Drawer
           open={drawerOpen}
           onClose={this.handleDrawerToggle}
-          anchor="left" />
+          anchor="left"
+        />
       </div>
     );
   }
