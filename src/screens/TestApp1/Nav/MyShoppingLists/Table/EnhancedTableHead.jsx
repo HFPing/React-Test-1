@@ -21,6 +21,7 @@ const createSortHandler = (property, onRequestSort) => event => {
  * Table Header
  * - Category orginizer
  * - Category asc/dec filter
+ * - rowStructure indicates data to be here
  */
 const EnhancedTableHead = ({
   onSelectAllClick,
@@ -35,7 +36,7 @@ const EnhancedTableHead = ({
     <TableRow>
       <TableCell padding="checkbox">
         <Checkbox
-          indeterminate={numSelected > 0 && numSelected < rowCount}
+          // indeterminate={numSelected > 0 && numSelected < rowCount}
           checked={numSelected === rowCount && rowCount > 0}
           onChange={onSelectAllClick}
           color="primary"
@@ -77,12 +78,14 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
-  rowStructure: PropTypes.arrayOf({
-    id: PropTypes.string,
-    label: PropTypes.string,
-    numeric: PropTypes.bool,
-    disablePadding: PropTypes.bool,
-  }).isRequired,
+  rowStructure: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      label: PropTypes.string,
+      numeric: PropTypes.bool,
+      disablePadding: PropTypes.bool,
+    }),
+  ).isRequired,
 };
 
 export default EnhancedTableHead;
