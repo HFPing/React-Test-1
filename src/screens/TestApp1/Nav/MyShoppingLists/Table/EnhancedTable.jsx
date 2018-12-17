@@ -9,6 +9,7 @@ import {
   Checkbox,
   TablePagination,
   Tooltip,
+  IconButton,
 } from '@material-ui/core';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import {
@@ -65,16 +66,28 @@ const styles = theme => ({
   selectedCell: {
     backgroundColor: fade(theme.palette.primary.main, 0.5),
   },
+  editIcon: {
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+  },
 });
 
 class EnhancedTable extends PureComponent {
   state = {
     order: 'asc',
     orderBy: '',
-    selected: [],
+    selected: [], // Array of selected item indexes
     page: 0,
     rowsPerPage: 10,
+    textFilter: '',
   };
+
+  onTextFilter =
+    (e) => this.setState({
+      textFilter: e.target.value !== undefined
+        ? e.target.value : '',
+    });
 
   handleRequestSort = (event, property) => {
     const { orderBy, order } = this.state;
@@ -88,7 +101,7 @@ class EnhancedTable extends PureComponent {
 
   handleSelectAllClick = data => event => {
     if (event.target.checked) {
-      this.setState({ selected: data.map(n => n.id) });
+      this.setState({ selected: data.map(n => n.index) });
       return;
     }
     this.setState({ selected: [] });
@@ -123,13 +136,20 @@ class EnhancedTable extends PureComponent {
   };
 
   render() {
-    const { classes, rowStructure, data } = this.props;
+    const {
+      classes,
+      rowStructure,
+      data,
+      addItemHandler,
+      editItemHandler,
+    } = this.props;
     const {
       order,
       orderBy,
       selected,
       rowsPerPage,
       page,
+      textFilter,
     } = this.state;
     const emptyRows = rowsPerPage
     - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -137,26 +157,32 @@ class EnhancedTable extends PureComponent {
       caption: classes.caption,
       input: classes.input,
     };
+    const filteredData = data.filter(i => i.itmName.indexOf(textFilter) > -1);
 
     return (
       <div>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          onTextFilter={this.onTextFilter}
+          textFilter={textFilter}
+          addItemHandler={addItemHandler}
+        />
         <div className={classes.tableWrapper}>
           <Table aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick(data)}
+              onSelectAllClick={this.handleSelectAllClick(filteredData)}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
+              rowCount={filteredData.length}
               rowStructure={rowStructure}
             />
             <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
+              {stableSort(filteredData, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((n, idx) => {
-                  const isSelected = this.isSelected(n.id);
+                  const isSelected = this.isSelected(n.index);
                   const cellStyle = isSelected
                     ? { root: classes.selectedCell }
                     : idx % 2
@@ -168,25 +194,27 @@ class EnhancedTable extends PureComponent {
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={n.index}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isSelected}
-                          onChange={event => this.handleClick(event, n.id)}
+                          onChange={event => this.handleClick(event, n.index)}
                           color="primary"
                           icon={<CheckBoxOutlineBlankOutlined color="disabled" />}
                         />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {n.itemName}
+                        {n.itmName}
                       </TableCell>
-                      <TableCell align="center">{n.sku}</TableCell>
+                      <TableCell align="center">n.sku</TableCell>
                       <TableCell align="center">{n.upc}</TableCell>
-                      <TableCell align="right">{n.storePrice}</TableCell>
+                      <TableCell align="right">n.storePrice</TableCell>
                       <TableCell>
                         <Tooltip title="Edit Item">
-                          <Edit />
+                          <IconButton onClick={editItemHandler(n.index)}>
+                            <Edit color="action" className={classes.editIcon} />
+                          </IconButton>
                         </Tooltip>
                       </TableCell>
                     </TableRow>
@@ -203,7 +231,7 @@ class EnhancedTable extends PureComponent {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={data.length}
+          count={filteredData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -225,13 +253,17 @@ class EnhancedTable extends PureComponent {
 
 EnhancedTable.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  rowStructure: PropTypes.arrayOf({
-    id: PropTypes.string,
-    label: PropTypes.string,
-    numeric: PropTypes.bool,
-    disablePadding: PropTypes.bool,
-  }).isRequired,
+  rowStructure: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      label: PropTypes.string,
+      numeric: PropTypes.bool,
+      disablePadding: PropTypes.bool,
+    }),
+  ).isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  addItemHandler: PropTypes.func.isRequired,
+  editItemHandler: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(EnhancedTable);
