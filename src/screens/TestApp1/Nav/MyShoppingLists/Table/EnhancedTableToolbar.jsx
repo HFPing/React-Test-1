@@ -16,6 +16,7 @@ import {
   FilterList,
   Search,
   MoreVert,
+  Close,
 } from '@material-ui/icons';
 
 const toolbarStyles = theme => ({
@@ -49,10 +50,19 @@ const toolbarStyles = theme => ({
     width: '100%',
   },
   searchIcon: {
-    width: theme.spacing.unit * 9,
+    marginLeft: theme.spacing.unit,
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeIcon: {
+    height: '100%',
+    position: 'absolute',
+    right: 0,
+    top: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -64,85 +74,105 @@ const toolbarStyles = theme => ({
   },
   inputInput: {
     paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
+    marginRight: theme.spacing.unit * 5,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 8,
+    marginLeft: theme.spacing.unit * 5,
     transition: theme.transitions.create('width'),
     width: 120,
     '&:focus': { width: 200 },
   },
 });
 
-const EnhancedTableToolbar = props => {
-  const { numSelected, classes } = props;
-
-  return (
-    <Toolbar
-      className={classNames(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      <div className={classes.title}>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {`${numSelected} selected`}
-          </Typography>
-        ) : (
-          <div>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => console.log('Add new item')}
-            >
-              + Add New Item
-            </Button>
-          </div>
-        )}
-      </div>
-      <div className={classes.spacer} />
-      <div className={classes.actions}>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <Delete color="error" />
+/**
+ * Table Top-Most component
+ * - Filter and addition controllers
+ * - Changes if there's a selection made
+ */
+const EnhancedTableToolbar = ({
+  numSelected,
+  classes,
+  onTextFilter,
+  textFilter,
+  addItemHandler,
+}) => (
+  <Toolbar
+    className={classNames(classes.root, {
+      [classes.highlight]: numSelected > 0,
+    })}
+  >
+    <div className={classes.title}>
+      {numSelected > 0 ? (
+        <Typography color="inherit" variant="subtitle1">
+          {`${numSelected} selected`}
+        </Typography>
+      ) : (
+        <div>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={addItemHandler}
+          >
+            + Add New Item
+          </Button>
+        </div>
+      )}
+    </div>
+    <div className={classes.spacer} />
+    <div className={classes.actions}>
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton aria-label="Delete">
+            <Delete color="error" />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title="Search Item">
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <Search color="action" />
+              </div>
+              <InputBase
+                value={textFilter}
+                onChange={onTextFilter}
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+              />
+              {textFilter.length > 0
+                ? (
+                  <div className={classes.closeIcon}>
+                    <IconButton onClick={onTextFilter}>
+                      <Close color="error" />
+                    </IconButton>
+                  </div>
+                ) : null}
+            </div>
+          </Tooltip>
+          <Tooltip title="Filter list">
+            <IconButton aria-label="Filter list">
+              <FilterList />
             </IconButton>
           </Tooltip>
-        ) : (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Tooltip title="Search Item">
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <Search color="action" />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                />
-              </div>
-            </Tooltip>
-            <Tooltip title="Filter list">
-              <IconButton aria-label="Filter list">
-                <FilterList />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="More">
-              <IconButton aria-label="Filter list">
-                <MoreVert />
-              </IconButton>
-            </Tooltip>
-          </div>
-        )}
-      </div>
-    </Toolbar>
-  );
-};
+          <Tooltip title="More">
+            <IconButton aria-label="Filter list">
+              <MoreVert />
+            </IconButton>
+          </Tooltip>
+        </div>
+      )}
+    </div>
+  </Toolbar>
+);
 
 EnhancedTableToolbar.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   numSelected: PropTypes.number.isRequired,
+  onTextFilter: PropTypes.func.isRequired,
+  textFilter: PropTypes.string.isRequired,
+  addItemHandler: PropTypes.func.isRequired,
 };
 
 export default withStyles(toolbarStyles)(EnhancedTableToolbar);
