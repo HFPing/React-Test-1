@@ -11,13 +11,17 @@ import {
   MenuItem,
   Button,
   Typography,
+  Tooltip,
 } from '@material-ui/core';
 import {
   ArrowDropDown,
 } from '@material-ui/icons';
 
-import { DRAWER_WIDTH } from '../../../../components/ResponsiveDrawer';
 import EnhancedTable from './Table/EnhancedTable';
+import AddItemModal from '../Modals/AddItemModal';
+import EditItemModal from '../Modals/EditItemModal';
+
+import { DRAWER_WIDTH } from '../../../../components/ResponsiveDrawer';
 import { TYPES } from '../../../../redux/actions';
 
 const createData = (id, label, numeric = true, disablePadding = false) => ({
@@ -33,23 +37,6 @@ const rowStructure = [
   createData('upc', 'UPC'),
   createData('storePrice', 'Store Price', false, true),
   createData('edit', ''),
-];
-
-const data = [
-  {
-    id: 0,
-    itemName: 'Atun',
-    sku: 12332334,
-    upc: 23443332,
-    storePrice: '15 $',
-  },
-  {
-    id: 1,
-    itemName: 'Jamon',
-    sku: 12332334,
-    upc: 23443332,
-    storePrice: '25 $',
-  },
 ];
 
 const Div = styled.div`
@@ -71,7 +58,7 @@ const styles = theme => ({
     marginTop: theme.mixins.toolbar.minHeight + theme.spacing.unit,
     marginLeft: DRAWER_WIDTH,
     width: `calc(100% - ${DRAWER_WIDTH}px)`,
-    backgroundColor: '#FFFFFFAA',
+    backgroundColor: '#F5F5F5',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#A0A0A0',
@@ -85,7 +72,18 @@ class MyShoppingLists extends PureComponent {
   state = {
     shoppinglistsMenuIndex: 0,
     shoppinglistsMenuAnchor: null,
+    addItemOpen: false,
+    editItemOpen: false,
+    itemToEdit: 0,
   };
+
+  editItemModalOpen =
+    (idx) => () => this.setState({ editItemOpen: true, itemToEdit: idx });
+
+  editItemModalHandler =
+    (data) => () => this.setState({ editItemOpen: false, itemToEdit: undefined });
+
+  addItemModalHander = (open) => () => this.setState({ addItemOpen: open });
 
   handleShoppinglistsMenuOpen =
     (event) => this.setState({ shoppinglistsMenuAnchor: event.currentTarget });
@@ -108,29 +106,42 @@ class MyShoppingLists extends PureComponent {
     const {
       shoppinglistsMenuAnchor,
       shoppinglistsMenuIndex,
+      addItemOpen,
+      editItemOpen,
+      itemToEdit,
     } = this.state;
 
     const renderShopListMenu = system[TYPES.LISTS_DOWNLOADED];
     const currentListName = shoppinglistsList.length > 0
       ? shoppinglistsList[shoppinglistsMenuIndex].listName : '';
+    const selItemList = renderShopListMenu
+      ? shoppinglistsList[shoppinglistsMenuIndex].items : [];
+    const selItem = selItemList[itemToEdit];
 
     return (
       <Div className={classes.root}>
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            <Button
-              aria-haspopup="true"
-              onClick={this.handleShoppinglistsMenuOpen}
-            >
-              <Typography variant="h6">
-                {currentListName}
-              </Typography>
-              <ArrowDropDown />
-            </Button>
+            <Tooltip title="Available Lists">
+              <Button
+                aria-haspopup="true"
+                onClick={this.handleShoppinglistsMenuOpen}
+              >
+                <Typography variant="h6">
+                  {currentListName}
+                </Typography>
+                <ArrowDropDown />
+              </Button>
+            </Tooltip>
           </Toolbar>
         </AppBar>
         <Paper className={classes.paper}>
-          <EnhancedTable rowStructure={rowStructure} data={data} />
+          <EnhancedTable
+            editItemHandler={this.editItemModalOpen}
+            addItemHandler={this.addItemModalHander(true)}
+            rowStructure={rowStructure}
+            data={selItemList}
+          />
         </Paper>
         <Menu
           id="simple-menu"
@@ -148,6 +159,15 @@ class MyShoppingLists extends PureComponent {
             </MenuItem>
           ))}
         </Menu>
+        <AddItemModal
+          open={addItemOpen}
+          onClose={this.addItemModalHander(false)}
+        />
+        <EditItemModal
+          open={editItemOpen}
+          onClose={this.editItemModalHandler}
+          itemToEdit={selItem}
+        />
       </Div>
     );
   }
@@ -156,7 +176,7 @@ class MyShoppingLists extends PureComponent {
 MyShoppingLists.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   system: PropTypes.shape({}).isRequired,
-  lists: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  lists: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = (state) => {
