@@ -16,6 +16,7 @@ import {
 } from '@material-ui/icons';
 import { Icon } from 'react-icons-kit';
 import { microchip } from 'react-icons-kit/fa/microchip';
+import { computer } from 'react-icons-kit/entypo/';
 
 import { PATHS } from '../routes';
 
@@ -76,6 +77,14 @@ class MyDrawer extends PureComponent {
             >
               <ListItemIcon><ShoppingCart /></ListItemIcon>
               <ListItemText primary="Test App" />
+            </ListItem>
+            <ListItem
+              button
+              selected={this.activeRoute(PATHS.P5_JS)}
+              onClick={this.navigateToScreen(PATHS.P5_JS)}
+            >
+              <ListItemIcon><Icon icon={computer} /></ListItemIcon>
+              <ListItemText primary="P5.JS" />
             </ListItem>
           </List>
         </Drawer>
