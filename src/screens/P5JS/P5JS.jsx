@@ -14,6 +14,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '../../components/Drawer';
 
 import Demo from './Tabs/Demo';
+import BinaryTree from './Tabs/BinaryTree';
 
 const styles = {
   root: {
@@ -63,6 +64,7 @@ class Plots extends PureComponent {
       </Toolbar>
       <Tabs scrollable value={value} onChange={this.handleChange} style={{ elevation: 0 }}>
         <Tab label="Demo" />
+        <Tab label="Binary Tree" />
       </Tabs>
     </AppBar>
   );
@@ -75,6 +77,9 @@ class Plots extends PureComponent {
     switch (value) {
       case 0:
         Screen = Demo;
+        break;
+      case 1:
+        Screen = BinaryTree;
         break;
       default:
         break;

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import P5Wrapper from 'react-p5-wrapper';
 import { withStyles } from '@material-ui/core/styles';
 
-import sketch from './DemoSketch';
+import sketch from './Sketches/DemoSketch';
 
 const styles = theme => ({
   root: {
@@ -14,12 +14,7 @@ const styles = theme => ({
 class Demo extends PureComponent {
   render() {
     const { classes } = this.props;
-
-    return (
-      <div>
-        <P5Wrapper sketch={sketch} />
-      </div>
-    );
+    return (<P5Wrapper sketch={sketch} />);
   }
 }
 
