@@ -5,7 +5,6 @@ import {
   Tab,
   Toolbar,
   Typography,
-  Button,
   IconButton,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -15,6 +14,7 @@ import Drawer from '../../components/Drawer';
 
 import Demo from './Tabs/Demo';
 import BinaryTree from './Tabs/BinaryTree';
+import BreadthFirstSearch from './Tabs/BreadthFirstSearch';
 
 const styles = {
   root: {
@@ -65,6 +65,7 @@ class Plots extends PureComponent {
       <Tabs scrollable value={value} onChange={this.handleChange} style={{ elevation: 0 }}>
         <Tab label="Demo" />
         <Tab label="Binary Tree" />
+        <Tab label="Breadth-First Search" />
       </Tabs>
     </AppBar>
   );
@@ -80,6 +81,9 @@ class Plots extends PureComponent {
         break;
       case 1:
         Screen = BinaryTree;
+        break;
+      case 2:
+        Screen = BreadthFirstSearch;
         break;
       default:
         break;
